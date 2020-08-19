@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>CYKEL</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row title"><span>CYKEL</span></div>
+      <div class="row title-sub">
+        <span>Get out and bike in your favorite city</span>
+      </div>
+
+      <form id="location-form">
+        <div class="form-group">
+          <label for="country">Which country are you going?</label>
+          <input type="text" name="country" id="country" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="city">Which city are you going?</label>
+          <input type="text" name="city" id="city" class="form-control" />
+        </div>
+        <button type="submit" class="explore-btn">Explore</button>
+      </form>
+
+      <div class="map"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
