@@ -28,22 +28,6 @@
   text-align: right;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-}
-
-.modal-content {
-  background-color: #ffd9fd;
-  border: 5px solid #615d61;
-  width: 50%;
-}
-
 form {
   margin-bottom: 1rem;
 }
@@ -81,6 +65,7 @@ form {
 option {
   width: 100%;
 }
+
 .world-data-list-btn {
   padding: 0.2rem 0.3rem 0.2rem 0.3rem;
   font-size: 0.8rem;
