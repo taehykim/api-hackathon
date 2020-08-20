@@ -28,7 +28,7 @@ function handleSubmit(event) {
   const formData = new FormData(event.target);
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
-  console.log(countrySelect, citySelect);
+  // console.log(countrySelect, citySelect);
   if (!countrySelect && !citySelect) {
     alert("You must selected a country or a city that you want to visit");
     return false;
@@ -139,7 +139,7 @@ function getBike(country, countryCode, city) {
           }
         }
       }
-      console.log(regionData);
+      // console.log(regionData);
       if (regionData.length != 0) {
         let totalLat = 0;
         let totalLng = 0;
@@ -160,8 +160,8 @@ function getBike(country, countryCode, city) {
           method: "GET",
           url: "http://api.citybik.es" + regionData[i].href,
           success: function (data) {
-            console.log(data);
-            console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
+            // console.log(data);
+            // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
 
             if (city && country) {
               titleSub.textContent =
@@ -173,7 +173,7 @@ function getBike(country, countryCode, city) {
             }
 
             totalStations += data.network.stations.length;
-            console.log("total stations:", totalStations);
+            // console.log("total stations:", totalStations);
             displayTotal(totalStations);
             for (let j = 0; j < data.network.stations.length; j++) {
               const marker = new google.maps.Marker({
@@ -310,23 +310,24 @@ function displayTotal(totalStations) {
 }
 
 function removeNav(nav) {
-  console.log("hello from remove nav");
+  // console.log("hello from remove nav");
   // console.log(nav);
   if (nav) {
-    console.log("About to remove");
+    // console.log("About to remove");
     nav.remove();
-    console.log(document.getElementById("nav"));
+    // console.log(document.getElementById("nav"));
   }
 }
 
 function removeNavs() {
-  console.log("removing navs!!!!");
+  // console.log("removing navs!!!!");
   const navs = document.querySelectorAll("#nav");
-  console.log(navs);
+  // console.log(navs.length);
   for (let i = 1; i < navs.length; i++) {
-    console.log("removing navs!!!! inside for loop");
+    // console.log("removing navs!!!! inside for loop");
     container.removeChild(navs[i]);
   }
+  // console.log(document.querySelectorAll("#nav").length);
 }
 
 function removeTable() {
@@ -378,7 +379,7 @@ function addToTable(
 }
 
 function pageTable() {
-  console.log("calling pageTable");
+  // console.log("calling pageTable");
   $(document).ready(function () {
     $("#data").after('<div id="nav"></div>');
     var rowsShown = 10;
@@ -388,7 +389,7 @@ function pageTable() {
       var pageNum = i + 1;
       $("#nav").append('<a href="#" rel="' + i + '">' + pageNum + "</a> ");
     }
-    removeNavs();
+
     $("#data tbody tr").hide();
     $("#data tbody tr").slice(0, rowsShown).show();
     $("#nav a:first").addClass("active");
@@ -405,6 +406,7 @@ function pageTable() {
         .css("display", "table-row") // displays the row (gives spaces for the row in DOM) but transparent
         .animate({ opacity: 1 }, 300); // in 300 milliseconds, change opacity to 1, so you can view it
     });
+    removeNavs();
   });
 }
 
