@@ -22,12 +22,39 @@
 
       <form id="location-form">
         <div class="form-group">
-          <label for="country">Which country are you going?</label>
-          <input type="text" name="country" id="country" class="form-control" />
+          <label for="country"
+            >Which country are you going?
+            <div>Not sure where to go? Check out</div>
+          </label>
+          <select name="country-select" id="country-select">
+            <option value="">List of Countries</option>
+          </select>
+
+          <input
+            type="text"
+            name="country"
+            id="country"
+            class="form-control"
+            placeholder="We have over 50 countries with bike stations around the world"
+            required
+          />
         </div>
         <div class="form-group">
-          <label for="city">Which city are you going?</label>
-          <input type="text" name="city" id="city" class="form-control" />
+          <label for="city"
+            >Which city are you going?
+            <div>Not sure where to go? Check out</div>
+          </label>
+          <select name="city-select" id="city-select">
+            <option value="">List of Cities</option>
+          </select>
+
+          <input
+            type="text"
+            name="city"
+            id="city"
+            class="form-control"
+            placeholder="We have over 600 cities with bike stations around the world"
+          />
         </div>
         <button type="submit" class="explore-btn">Explore</button>
       </form>
@@ -39,16 +66,16 @@
         >
       </div>
       <div id="map"></div>
-      <table class="table d-none table-responsive" id="table1">
+      <div id="stats"></div>
+      <table class="table d-none table-responsive" id="data">
         <thead>
           <tr>
-            <th>Station</th>
-            <th>City</th>
-            <th>Country</th>
-            <th>Total Bikes</th>
-            <th>Currently Available Bikes</th>
-            <th>E-Bikes</th>
-            <th></th>
+            <th class="station">Station</th>
+            <th class="city">City</th>
+            <th class="country">Country</th>
+            <th class="total-bikes">Total Bikes</th>
+            <th class="available-bikes">Currently Available Bikes</th>
+            <th class="e-bikes">E-Bikes</th>
           </tr>
         </thead>
         <tbody id="bike-table-body"></tbody>

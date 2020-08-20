@@ -19,13 +19,29 @@
 }
 
 .explore-btn {
-  padding: 0.3rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.6rem;
   background-color: #b0e1ec;
   border: transparent;
   font-size: 1.2rem;
-  border-radius: 10px;
+  border-radius: 20px;
   outline: none;
   text-align: right;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.modal-content {
+  background-color: #ffd9fd;
+  border: 5px solid #615d61;
+  width: 50%;
 }
 
 form {
@@ -45,6 +61,19 @@ form {
 #map {
   height: 400px;
   width: 100%;
+  margin-bottom: 2rem;
 }
 
-@media screen and (max);
+#stats {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.world-data-list-btn {
+  padding: 0.2rem 0.3rem 0.2rem 0.3rem;
+  font-size: 0.8rem;
+  outline: none;
+  background-color: #b0e1ec;
+  border: transparent;
+  border-radius: 20px;
+}
