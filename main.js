@@ -1,4 +1,5 @@
 // global variables
+const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
 const bikeTable = document.querySelector("table");
 const bikeTableBody = document.getElementById("bike-table-body");
@@ -17,6 +18,17 @@ let country = [];
 getAllBike();
 
 // event listeners
+cykelAnchor.addEventListener("click", function () {
+  titleSub.textContent = "Get out and bike in your favorite city";
+  map.setCenter(sf);
+  map.setZoom(11);
+  removeTable();
+  removeNav(document.querySelector("#nav"));
+  document.getElementById("stats").classList.add("d-none");
+  bikeTable.classList.add("d-none");
+  form.reset();
+});
+
 selectCountry.addEventListener("change", function () {
   const countryName = event.target.value;
   createCitySelectTags(getCity(countries[countryName]));
@@ -46,9 +58,10 @@ function handleSubmit(event) {
 
 // Google Maps API
 let map;
+var sf = { lat: 37.7946, lng: -122.3999 };
 // Initialize and add the map
 function initMap() {
-  var sf = { lat: 37.7946, lng: -122.3999 };
+  // var sf = { lat: 37.7946, lng: -122.3999 };
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 2,
     center: sf,
@@ -305,6 +318,7 @@ function createCountrySelectTags(countryArr) {
 }
 
 function displayTotal(totalStations) {
+  document.getElementById("stats").classList.remove("d-none");
   document.getElementById("stats").textContent =
     "There are total " + totalStations + " Bike Stations in this area";
 }
