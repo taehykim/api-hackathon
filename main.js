@@ -21,6 +21,7 @@
 
 const titleSub = document.querySelector(".title-sub");
 const bikeTableBody = document.getElementById("bike-table-body");
+const exampleMapText = document.getElementById("example-map");
 
 // list of country codes
 const countries = {
@@ -317,11 +318,6 @@ function getAllBike() {
               console.log(data);
               // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
               for (let j = 0; j < data.network.stations.length; j++) {
-                if (data.network.stations[j].name === "Laguna St at Hayes St") {
-                  //425
-                  console.log(j);
-                  console.log("Found!");
-                }
                 const marker = new google.maps.Marker({
                   position: {
                     lat: data.network.stations[j].latitude,
@@ -438,21 +434,72 @@ function getBike(country, countryCode, city) {
             });
 
             for (let j = 0; j < data.network.stations.length; j++) {
+              // var infowindow = new google.maps.InfoWindow({
+              //   content: "<span>" + data.network.stations[j].name + "</span>",
+              // });
+
               const marker = new google.maps.Marker({
                 position: {
                   lat: data.network.stations[j].latitude,
                   lng: data.network.stations[j].longitude,
                 },
               });
+
+              var content =
+                "<h3>" +
+                data.network.stations[j].name +
+                "</h3>" +
+                "<h4>Available Bikes: " +
+                data.network.stations[j].empty_slots +
+                "</h4>" +
+                "<h4>" +
+                "Available E-Bikes: " +
+                data.network.stations[j].extra.ebikes +
+                "</h4>";
+
+              // var content =
+              //   "Station Name: " +
+              //   data.network.stations[j].name +
+              //   "\n" +
+              //   " Available bikes: " +
+              //   data.network.stations[j].empty_slots;
+              var infowindow = new google.maps.InfoWindow();
+
+              google.maps.event.addListener(
+                marker,
+                "click",
+                (function (content) {
+                  return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, this);
+                  };
+                })(content)
+              );
+
+              // marker.addListener("click", () => {
+              //   infowindow.open(map, marker);
+              // });
+
               marker.setMap(map);
 
               // fill in the table in DOM
               const stationName = data.network.stations[j].name;
               const totalBikes = data.network.stations[j].free_bikes;
               const availableBikes = data.network.stations[j].empty_slots;
-              const eBikes = data.network.stations[j].extra.ebikes;
+              let eBikes = data.network.stations[j].extra.ebikes;
 
-              addToTable(stationName, totalBikes, availableBikes, eBikes);
+              if (!eBikes) {
+                eBikes = 0;
+              }
+
+              addToTable(
+                stationName,
+                totalBikes,
+                availableBikes,
+                eBikes,
+                country,
+                city
+              );
             }
             map.setZoom(10);
           },
@@ -474,19 +521,38 @@ function removeTable() {
   }
 }
 
-function addToTable(stationName, totalBikes, availableBikes, eBikes) {
+function addToTable(
+  stationName,
+  totalBikes,
+  availableBikes,
+  eBikes,
+  country,
+  city
+) {
+  exampleMapText.classList.add("d-none");
   const newRow = document.createElement("tr");
   const stationTd = document.createElement("td");
   const totalBikesTd = document.createElement("td");
   const availableBikesTd = document.createElement("td");
   const eBikesTd = document.createElement("td");
+  const cityTd = document.createElement("td");
+  const countryTd = document.createElement("td");
 
   stationTd.textContent = stationName;
   totalBikesTd.textContent = totalBikes;
   availableBikesTd.textContent = availableBikes;
   eBikesTd.textContent = eBikes;
+  cityTd.textContent = city;
+  countryTd.textContent = country;
 
-  newRow.append(stationTd, totalBikesTd, availableBikesTd, eBikesTd);
+  newRow.append(
+    stationTd,
+    cityTd,
+    countryTd,
+    totalBikesTd,
+    availableBikesTd,
+    eBikesTd
+  );
   bikeTableBody.appendChild(newRow);
 }
 // get bike data
