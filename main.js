@@ -27,6 +27,7 @@ cykelAnchor.addEventListener("click", function () {
   document.getElementById("stats").classList.add("d-none");
   bikeTable.classList.add("d-none");
   form.reset();
+  exploreBtn.textContent = "Explore";
 });
 
 selectCountry.addEventListener("change", function () {
