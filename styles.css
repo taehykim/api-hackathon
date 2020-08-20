@@ -78,6 +78,9 @@ form {
   width: 100%;
 }
 
+option {
+  width: 100%;
+}
 .world-data-list-btn {
   padding: 0.2rem 0.3rem 0.2rem 0.3rem;
   font-size: 0.8rem;

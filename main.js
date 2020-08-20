@@ -384,7 +384,7 @@ function pageTable() {
     var rowsShown = 10;
     var rowsTotal = $("#data tbody tr").length;
     var numPages = rowsTotal / rowsShown;
-    for (i = 0; i < numPages; i++) {
+    for (let i = 0; i < numPages; i++) {
       var pageNum = i + 1;
       $("#nav").append('<a href="#" rel="' + i + '">' + pageNum + "</a> ");
     }
@@ -399,11 +399,11 @@ function pageTable() {
       var startItem = currPage * rowsShown;
       var endItem = startItem + rowsShown;
       $("#data tbody tr")
-        .css("opacity", "0.0")
-        .hide()
-        .slice(startItem, endItem)
-        .css("display", "table-row")
-        .animate({ opacity: 1 }, 300);
+        .css("opacity", "0.0") // making it 100% transparent
+        .hide() // remove the tbody tr from the DOM
+        .slice(startItem, endItem) // cut the row
+        .css("display", "table-row") // displays the row (gives spaces for the row in DOM) but transparent
+        .animate({ opacity: 1 }, 300); // in 300 milliseconds, change opacity to 1, so you can view it
     });
   });
 }
