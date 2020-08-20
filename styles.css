@@ -69,8 +69,13 @@ form {
   margin-bottom: 1rem;
 }
 
+#nav {
+  text-align: right;
+}
+
 .select-tag {
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .world-data-list-btn {

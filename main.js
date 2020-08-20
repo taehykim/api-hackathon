@@ -8,6 +8,7 @@ const citySelect = document.getElementById("city-select");
 const countrySelect = document.getElementById("country-select");
 const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
+const container = document.querySelector(".container");
 let worldData = [];
 let city = [];
 let country = [];
@@ -242,13 +243,13 @@ function getBike(country, countryCode, city) {
             }
             map.setZoom(14);
             pageTable();
+            // removeNavs();
           },
           error: function (err) {
             console.log(err);
           },
         });
       }
-
       exploreBtn.textContent = "Explore Another Location";
     },
     error: function (err) {
@@ -309,10 +310,22 @@ function displayTotal(totalStations) {
 }
 
 function removeNav(nav) {
-  // console.log("hello from nav");
+  console.log("hello from remove nav");
   // console.log(nav);
   if (nav) {
+    console.log("About to remove");
     nav.remove();
+    console.log(document.getElementById("nav"));
+  }
+}
+
+function removeNavs() {
+  console.log("removing navs!!!!");
+  const navs = document.querySelectorAll("#nav");
+  console.log(navs);
+  for (let i = 1; i < navs.length; i++) {
+    console.log("removing navs!!!! inside for loop");
+    container.removeChild(navs[i]);
   }
 }
 
@@ -365,6 +378,7 @@ function addToTable(
 }
 
 function pageTable() {
+  console.log("calling pageTable");
   $(document).ready(function () {
     $("#data").after('<div id="nav"></div>');
     var rowsShown = 10;
@@ -374,6 +388,7 @@ function pageTable() {
       var pageNum = i + 1;
       $("#nav").append('<a href="#" rel="' + i + '">' + pageNum + "</a> ");
     }
+    removeNavs();
     $("#data tbody tr").hide();
     $("#data tbody tr").slice(0, rowsShown).show();
     $("#nav a:first").addClass("active");
