@@ -31,10 +31,32 @@
         <button type="submit" class="explore-btn">Explore</button>
       </form>
 
-      <div class="map"></div>
+      <div class="row" id="example-map">
+        <span>Explore near and far from ordinary</span>
+      </div>
+      <div id="map"></div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Total Bikes</th>
+            <th>Currently Available Bikes</th>
+            <th>E-Bikes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="bike-table-body"></tbody>
+      </table>
     </div>
 
+    <script
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlAnOhP2rItxDatVMVMHIKWFxdSXtgOns&callback=initMap"
+    ></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <script src="main.js"></script>
+    <script src="googleMap.js"></script>
   </body>
 </html>

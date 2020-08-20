@@ -1,252 +1,28 @@
-// list of country codes
-// var countries = {
-//   AF: "Afghanistan",
-//   AX: "Aland Islands",
-//   AL: "Albania",
-//   DZ: "Algeria",
-//   AS: "American Samoa",
-//   AD: "Andorra",
-//   AO: "Angola",
-//   AI: "Anguilla",
-//   AQ: "Antarctica",
-//   AG: "Antigua And Barbuda",
-//   AR: "Argentina",
-//   AM: "Armenia",
-//   AW: "Aruba",
-//   AU: "Australia",
-//   AT: "Austria",
-//   AZ: "Azerbaijan",
-//   BS: "Bahamas",
-//   BH: "Bahrain",
-//   BD: "Bangladesh",
-//   BB: "Barbados",
-//   BY: "Belarus",
-//   BE: "Belgium",
-//   BZ: "Belize",
-//   BJ: "Benin",
-//   BM: "Bermuda",
-//   BT: "Bhutan",
-//   BO: "Bolivia",
-//   BA: "Bosnia And Herzegovina",
-//   BW: "Botswana",
-//   BV: "Bouvet Island",
-//   BR: "Brazil",
-//   IO: "British Indian Ocean Territory",
-//   BN: "Brunei Darussalam",
-//   BG: "Bulgaria",
-//   BF: "Burkina Faso",
-//   BI: "Burundi",
-//   KH: "Cambodia",
-//   CM: "Cameroon",
-//   CA: "Canada",
-//   CV: "Cape Verde",
-//   KY: "Cayman Islands",
-//   CF: "Central African Republic",
-//   TD: "Chad",
-//   CL: "Chile",
-//   CN: "China",
-//   CX: "Christmas Island",
-//   CC: "Cocos (Keeling) Islands",
-//   CO: "Colombia",
-//   KM: "Comoros",
-//   CG: "Congo",
-//   CD: "Congo, Democratic Republic",
-//   CK: "Cook Islands",
-//   CR: "Costa Rica",
-//   CI: "Cote D'Ivoire",
-//   HR: "Croatia",
-//   CU: "Cuba",
-//   CY: "Cyprus",
-//   CZ: "Czech Republic",
-//   DK: "Denmark",
-//   DJ: "Djibouti",
-//   DM: "Dominica",
-//   DO: "Dominican Republic",
-//   EC: "Ecuador",
-//   EG: "Egypt",
-//   SV: "El Salvador",
-//   GQ: "Equatorial Guinea",
-//   ER: "Eritrea",
-//   EE: "Estonia",
-//   ET: "Ethiopia",
-//   FK: "Falkland Islands (Malvinas)",
-//   FO: "Faroe Islands",
-//   FJ: "Fiji",
-//   FI: "Finland",
-//   FR: "France",
-//   GF: "French Guiana",
-//   PF: "French Polynesia",
-//   TF: "French Southern Territories",
-//   GA: "Gabon",
-//   GM: "Gambia",
-//   GE: "Georgia",
-//   DE: "Germany",
-//   GH: "Ghana",
-//   GI: "Gibraltar",
-//   GR: "Greece",
-//   GL: "Greenland",
-//   GD: "Grenada",
-//   GP: "Guadeloupe",
-//   GU: "Guam",
-//   GT: "Guatemala",
-//   GG: "Guernsey",
-//   GN: "Guinea",
-//   GW: "Guinea-Bissau",
-//   GY: "Guyana",
-//   HT: "Haiti",
-//   HM: "Heard Island & Mcdonald Islands",
-//   VA: "Holy See (Vatican City State)",
-//   HN: "Honduras",
-//   HK: "Hong Kong",
-//   HU: "Hungary",
-//   IS: "Iceland",
-//   IN: "India",
-//   ID: "Indonesia",
-//   IR: "Iran, Islamic Republic Of",
-//   IQ: "Iraq",
-//   IE: "Ireland",
-//   IM: "Isle Of Man",
-//   IL: "Israel",
-//   IT: "Italy",
-//   JM: "Jamaica",
-//   JP: "Japan",
-//   JE: "Jersey",
-//   JO: "Jordan",
-//   KZ: "Kazakhstan",
-//   KE: "Kenya",
-//   KI: "Kiribati",
-//   KR: "Korea",
-//   KW: "Kuwait",
-//   KG: "Kyrgyzstan",
-//   LA: "Lao People's Democratic Republic",
-//   LV: "Latvia",
-//   LB: "Lebanon",
-//   LS: "Lesotho",
-//   LR: "Liberia",
-//   LY: "Libyan Arab Jamahiriya",
-//   LI: "Liechtenstein",
-//   LT: "Lithuania",
-//   LU: "Luxembourg",
-//   MO: "Macao",
-//   MK: "Macedonia",
-//   MG: "Madagascar",
-//   MW: "Malawi",
-//   MY: "Malaysia",
-//   MV: "Maldives",
-//   ML: "Mali",
-//   MT: "Malta",
-//   MH: "Marshall Islands",
-//   MQ: "Martinique",
-//   MR: "Mauritania",
-//   MU: "Mauritius",
-//   YT: "Mayotte",
-//   MX: "Mexico",
-//   FM: "Micronesia, Federated States Of",
-//   MD: "Moldova",
-//   MC: "Monaco",
-//   MN: "Mongolia",
-//   ME: "Montenegro",
-//   MS: "Montserrat",
-//   MA: "Morocco",
-//   MZ: "Mozambique",
-//   MM: "Myanmar",
-//   NA: "Namibia",
-//   NR: "Nauru",
-//   NP: "Nepal",
-//   NL: "Netherlands",
-//   AN: "Netherlands Antilles",
-//   NC: "New Caledonia",
-//   NZ: "New Zealand",
-//   NI: "Nicaragua",
-//   NE: "Niger",
-//   NG: "Nigeria",
-//   NU: "Niue",
-//   NF: "Norfolk Island",
-//   MP: "Northern Mariana Islands",
-//   NO: "Norway",
-//   OM: "Oman",
-//   PK: "Pakistan",
-//   PW: "Palau",
-//   PS: "Palestinian Territory, Occupied",
-//   PA: "Panama",
-//   PG: "Papua New Guinea",
-//   PY: "Paraguay",
-//   PE: "Peru",
-//   PH: "Philippines",
-//   PN: "Pitcairn",
-//   PL: "Poland",
-//   PT: "Portugal",
-//   PR: "Puerto Rico",
-//   QA: "Qatar",
-//   RE: "Reunion",
-//   RO: "Romania",
-//   RU: "Russian Federation",
-//   RW: "Rwanda",
-//   BL: "Saint Barthelemy",
-//   SH: "Saint Helena",
-//   KN: "Saint Kitts And Nevis",
-//   LC: "Saint Lucia",
-//   MF: "Saint Martin",
-//   PM: "Saint Pierre And Miquelon",
-//   VC: "Saint Vincent And Grenadines",
-//   WS: "Samoa",
-//   SM: "San Marino",
-//   ST: "Sao Tome And Principe",
-//   SA: "Saudi Arabia",
-//   SN: "Senegal",
-//   RS: "Serbia",
-//   SC: "Seychelles",
-//   SL: "Sierra Leone",
-//   SG: "Singapore",
-//   SK: "Slovakia",
-//   SI: "Slovenia",
-//   SB: "Solomon Islands",
-//   SO: "Somalia",
-//   ZA: "South Africa",
-//   GS: "South Georgia And Sandwich Isl.",
-//   ES: "Spain",
-//   LK: "Sri Lanka",
-//   SD: "Sudan",
-//   SR: "Suriname",
-//   SJ: "Svalbard And Jan Mayen",
-//   SZ: "Swaziland",
-//   SE: "Sweden",
-//   CH: "Switzerland",
-//   SY: "Syrian Arab Republic",
-//   TW: "Taiwan",
-//   TJ: "Tajikistan",
-//   TZ: "Tanzania",
-//   TH: "Thailand",
-//   TL: "Timor-Leste",
-//   TG: "Togo",
-//   TK: "Tokelau",
-//   TO: "Tonga",
-//   TT: "Trinidad And Tobago",
-//   TN: "Tunisia",
-//   TR: "Turkey",
-//   TM: "Turkmenistan",
-//   TC: "Turks And Caicos Islands",
-//   TV: "Tuvalu",
-//   UG: "Uganda",
-//   UA: "Ukraine",
-//   AE: "United Arab Emirates",
-//   GB: "United Kingdom",
-//   US: "United States",
-//   UM: "United States Outlying Islands",
-//   UY: "Uruguay",
-//   UZ: "Uzbekistan",
-//   VU: "Vanuatu",
-//   VE: "Venezuela",
-//   VN: "Viet Nam",
-//   VG: "Virgin Islands, British",
-//   VI: "Virgin Islands, U.S.",
-//   WF: "Wallis And Futuna",
-//   EH: "Western Sahara",
-//   YE: "Yemen",
-//   ZM: "Zambia",
-//   ZW: "Zimbabwe",
+// var options = {
+//   enableHighAccuracy: true,
+//   timeout: 5000,
+//   maximumAge: 0,
 // };
 
+// function success(pos) {
+//   var crd = pos.coords;
+
+//   console.log("Your current position is:");
+//   console.log(`Latitude : ${crd.latitude}`);
+//   console.log(`Longitude: ${crd.longitude}`);
+//   console.log(`More or less ${crd.accuracy} meters.`);
+// }
+
+// function error(err) {
+//   console.warn(`ERROR(${err.code}): ${err.message}`);
+// }
+
+// navigator.geolocation.getCurrentPosition(success, error, options);
+
+const titleSub = document.querySelector(".title-sub");
+const bikeTableBody = document.getElementById("bike-table-body");
+
+// list of country codes
 const countries = {
   Afghanistan: "AF",
   "Aland Islands": "AX",
@@ -495,14 +271,12 @@ const countries = {
   Zimbabwe: "ZW",
 };
 
+getAllBike();
+
 let form = document.getElementById("location-form");
-
 form.addEventListener("submit", handleSubmit);
-
 function handleSubmit(event) {
   event.preventDefault();
-  //   console.log(event);
-  //   console.log(event.target);
   const formData = new FormData(event.target);
   const country = formData.get("country");
   const city = formData.get("city");
@@ -510,16 +284,108 @@ function handleSubmit(event) {
 
   const countryCode = countries[country];
 
-  // get the selected country and city's map
-  //   getMap(countryCode, city);
-
-  // get the selected country and city's bike data
-  getBike(countryCode, city);
+  removeTable();
+  getBike(country, countryCode, city);
 }
 
-function getMap(countryCode, city) {}
+// Google Maps API
+let map;
+// Initialize and add the map
+function initMap() {
+  var sf = { lat: 37.7749, lng: -122.4194 };
+  // var barcelona = { lat: 41.4851, lng: 2.1734 };
+  // The map, centered at Barcelona
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 2.5,
+    center: sf,
+  });
+}
 
-function getBike(countryCode, city) {
+// get SF Bike Stations as dafault : initial plan was to get stations all over the world by default but that is too much network requests.
+function getAllBike() {
+  $.ajax({
+    method: "GET",
+    url: "http://api.citybik.es/v2/networks",
+    success: function (data) {
+      console.log(data);
+      for (var i = 0; i < data.networks.length; i++) {
+        if (data.networks[i].location.country === "US") {
+          $.ajax({
+            method: "GET",
+            url: "http://api.citybik.es" + data.networks[i].href,
+            success: function (data) {
+              console.log(data);
+              // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
+              for (let j = 0; j < data.network.stations.length; j++) {
+                if (data.network.stations[j].name === "Laguna St at Hayes St") {
+                  //425
+                  console.log(j);
+                  console.log("Found!");
+                }
+                const marker = new google.maps.Marker({
+                  position: {
+                    lat: data.network.stations[j].latitude,
+                    lng: data.network.stations[j].longitude,
+                  },
+                });
+                marker.setMap(map);
+                map.setZoom(10);
+              }
+            },
+            error: function (err) {
+              console.log(err);
+            },
+          });
+          // }
+        }
+      }
+
+      // for (var i = 0; i < data.networks.length; i++) {
+      //   if (
+      //     data.networks[i].location.city === "Paris" &&
+      //     data.networks[i].location.country === "FR"
+      //   ) {
+      //     $.ajax({
+      //       method: "GET",
+      //       url: "http://api.citybik.es" + data.networks[i].href,
+      //       success: function (data) {
+      //         console.log(data);
+
+      //         // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
+      //         for (let j = 0; j < data.network.stations.length; j++) {
+      //           if (
+      //             data.network.stations[j].name ===
+      //             "Bourg l'Abbé - Saint-Martin"
+      //           ) {
+      //             console.log(j);
+      //             console.log("found!");
+      //           }
+      //           const marker = new google.maps.Marker({
+      //             position: {
+      //               lat: data.network.stations[j].latitude,
+      //               lng: data.network.stations[j].longitude,
+      //             },
+      //           });
+      //           marker.setMap(map);
+      //           map.setZoom(10);
+      //         }
+      //       },
+      //       error: function (err) {
+      //         console.log(err);
+      //       },
+      //     });
+      //     // }
+      //   }
+      // }
+    },
+
+    error: function (err) {
+      console.log(err);
+    },
+  });
+}
+
+function getBike(country, countryCode, city) {
   $.ajax({
     method: "GET",
     url: "http://api.citybik.es/v2/networks",
@@ -528,18 +394,33 @@ function getBike(countryCode, city) {
       // console.log(data.networks.length);
       // console.log(data.networks);
       // console.log(data.networks[0].location.country);
+
       const regionData = [];
-      for (var i = 0; i < data.networks.length; i++) {
-        if (
-          data.networks[i].location.city === city &&
-          data.networks[i].location.country === countryCode
-        ) {
-          regionData.push(data.networks[i]);
+
+      if (!city) {
+        for (var i = 0; i < data.networks.length; i++) {
+          if (data.networks[i].location.country === countryCode) {
+            regionData.push(data.networks[i]);
+          }
+        }
+      } else if (!country) {
+        for (var i = 0; i < data.networks.length; i++) {
+          if (data.networks[i].location.city === city) {
+            regionData.push(data.networks[i]);
+          }
+        }
+      } else {
+        for (var i = 0; i < data.networks.length; i++) {
+          if (
+            data.networks[i].location.city === city &&
+            data.networks[i].location.country === countryCode
+          ) {
+            regionData.push(data.networks[i]);
+          }
         }
       }
 
       console.log(regionData);
-
       for (let i = 0; i < regionData.length; i++) {
         $.ajax({
           method: "GET",
@@ -547,6 +428,33 @@ function getBike(countryCode, city) {
           success: function (data) {
             console.log(data);
             console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
+            //var uluru = { lat: -25.344, lng: 131.036 };
+            titleSub.textContent = "Bike stations in " + city + ", " + country;
+            // form.classList.add("d-none");
+            // change the center of the map and zoom in
+            map.setCenter({
+              lat: data.network.location.latitude,
+              lng: data.network.location.longitude,
+            });
+
+            for (let j = 0; j < data.network.stations.length; j++) {
+              const marker = new google.maps.Marker({
+                position: {
+                  lat: data.network.stations[j].latitude,
+                  lng: data.network.stations[j].longitude,
+                },
+              });
+              marker.setMap(map);
+
+              // fill in the table in DOM
+              const stationName = data.network.stations[j].name;
+              const totalBikes = data.network.stations[j].free_bikes;
+              const availableBikes = data.network.stations[j].empty_slots;
+              const eBikes = data.network.stations[j].extra.ebikes;
+
+              addToTable(stationName, totalBikes, availableBikes, eBikes);
+            }
+            map.setZoom(10);
           },
           error: function (err) {
             console.log(err);
@@ -558,6 +466,28 @@ function getBike(countryCode, city) {
       console.log(err);
     },
   });
+}
+
+function removeTable() {
+  while (bikeTableBody.firstElementChild) {
+    bikeTableBody.removeChild(bikeTableBody.firstElementChild);
+  }
+}
+
+function addToTable(stationName, totalBikes, availableBikes, eBikes) {
+  const newRow = document.createElement("tr");
+  const stationTd = document.createElement("td");
+  const totalBikesTd = document.createElement("td");
+  const availableBikesTd = document.createElement("td");
+  const eBikesTd = document.createElement("td");
+
+  stationTd.textContent = stationName;
+  totalBikesTd.textContent = totalBikes;
+  availableBikesTd.textContent = availableBikes;
+  eBikesTd.textContent = eBikes;
+
+  newRow.append(stationTd, totalBikesTd, availableBikesTd, eBikesTd);
+  bikeTableBody.appendChild(newRow);
 }
 // get bike data
 // $.ajax({
