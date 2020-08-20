@@ -27,6 +27,11 @@ function handleSubmit(event) {
   const formData = new FormData(event.target);
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
+  console.log(countrySelect, citySelect);
+  if (!countrySelect && !citySelect) {
+    alert("You must selected a country or a city that you want to visit");
+    return false;
+  }
   // const countryText = formData.get("country-text");
   // const cityText = formData.get("city-text");
   // console.log("countrySelect:", countrySelect, "citySelect:", citySelect);
