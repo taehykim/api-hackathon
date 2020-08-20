@@ -1,3 +1,6 @@
+// var currentLocation = {};
+// //   var sf = { lat: 37.7749, lng: -122.4194 };
+
 // var options = {
 //   enableHighAccuracy: true,
 //   timeout: 5000,
@@ -11,6 +14,10 @@
 //   console.log(`Latitude : ${crd.latitude}`);
 //   console.log(`Longitude: ${crd.longitude}`);
 //   console.log(`More or less ${crd.accuracy} meters.`);
+//   currentLocation.lat = parseFloat(crd.latitude);
+//   currentLocation.lng = parseFloat(crd.longitude);
+
+//   getAllBike(crd);
 // }
 
 // function error(err) {
@@ -20,8 +27,10 @@
 // navigator.geolocation.getCurrentPosition(success, error, options);
 
 const titleSub = document.querySelector(".title-sub");
+const bikeTable = document.querySelector("table");
 const bikeTableBody = document.getElementById("bike-table-body");
 const exampleMapText = document.getElementById("example-map");
+const exploreBtn = document.querySelector(".explore-btn");
 
 // list of country codes
 const countries = {
@@ -293,11 +302,12 @@ function handleSubmit(event) {
 let map;
 // Initialize and add the map
 function initMap() {
-  var sf = { lat: 37.7749, lng: -122.4194 };
+  var sf = { lat: 37.7946, lng: -122.3999 };
   // var barcelona = { lat: 41.4851, lng: 2.1734 };
-  // The map, centered at Barcelona
+  // The map, centered at user's current location
+  // console.log(currentLocation);
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 2.5,
+    zoom: 2,
     center: sf,
   });
 }
@@ -308,15 +318,13 @@ function getAllBike() {
     method: "GET",
     url: "http://api.citybik.es/v2/networks",
     success: function (data) {
-      console.log(data);
       for (var i = 0; i < data.networks.length; i++) {
-        if (data.networks[i].location.country === "US") {
+        if (data.networks[i].location.city === "San Francisco Bay Area, CA") {
           $.ajax({
             method: "GET",
             url: "http://api.citybik.es" + data.networks[i].href,
             success: function (data) {
               console.log(data);
-              // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
               for (let j = 0; j < data.network.stations.length; j++) {
                 const marker = new google.maps.Marker({
                   position: {
@@ -325,54 +333,15 @@ function getAllBike() {
                   },
                 });
                 marker.setMap(map);
-                map.setZoom(10);
+                map.setZoom(11);
               }
             },
             error: function (err) {
               console.log(err);
             },
           });
-          // }
         }
       }
-
-      // for (var i = 0; i < data.networks.length; i++) {
-      //   if (
-      //     data.networks[i].location.city === "Paris" &&
-      //     data.networks[i].location.country === "FR"
-      //   ) {
-      //     $.ajax({
-      //       method: "GET",
-      //       url: "http://api.citybik.es" + data.networks[i].href,
-      //       success: function (data) {
-      //         console.log(data);
-
-      //         // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
-      //         for (let j = 0; j < data.network.stations.length; j++) {
-      //           if (
-      //             data.network.stations[j].name ===
-      //             "Bourg l'Abbé - Saint-Martin"
-      //           ) {
-      //             console.log(j);
-      //             console.log("found!");
-      //           }
-      //           const marker = new google.maps.Marker({
-      //             position: {
-      //               lat: data.network.stations[j].latitude,
-      //               lng: data.network.stations[j].longitude,
-      //             },
-      //           });
-      //           marker.setMap(map);
-      //           map.setZoom(10);
-      //         }
-      //       },
-      //       error: function (err) {
-      //         console.log(err);
-      //       },
-      //     });
-      //     // }
-      //   }
-      // }
     },
 
     error: function (err) {
@@ -386,37 +355,50 @@ function getBike(country, countryCode, city) {
     method: "GET",
     url: "http://api.citybik.es/v2/networks",
     success: function (data) {
-      // console.log(data.networks);
-      // console.log(data.networks.length);
-      // console.log(data.networks);
-      // console.log(data.networks[0].location.country);
-
+      bikeTable.classList.remove("d-none");
+      exampleMapText.classList.add("d-none");
       const regionData = [];
 
       if (!city) {
-        for (var i = 0; i < data.networks.length; i++) {
-          if (data.networks[i].location.country === countryCode) {
+        city = "";
+        for (let i = 0; i < data.networks.length; i++) {
+          if (data.networks[i].location.country.includes(countryCode)) {
             regionData.push(data.networks[i]);
           }
         }
       } else if (!country) {
-        for (var i = 0; i < data.networks.length; i++) {
-          if (data.networks[i].location.city === city) {
+        country = "";
+        for (let i = 0; i < data.networks.length; i++) {
+          if (data.networks[i].location.city.includes(city)) {
             regionData.push(data.networks[i]);
           }
         }
       } else {
-        for (var i = 0; i < data.networks.length; i++) {
+        for (let i = 0; i < data.networks.length; i++) {
           if (
-            data.networks[i].location.city === city &&
-            data.networks[i].location.country === countryCode
+            data.networks[i].location.city.includes(city) &&
+            data.networks[i].location.country.includes(countryCode)
           ) {
             regionData.push(data.networks[i]);
           }
         }
       }
-
       console.log(regionData);
+      if (regionData.length != 0) {
+        let totalLat = 0;
+        let totalLng = 0;
+        for (let i = 0; i < regionData.length; i++) {
+          totalLat += regionData[i].location.latitude;
+          totalLng += regionData[i].location.longitude;
+        }
+
+        // change the center of the map and zoom in
+        map.setCenter({
+          lat: totalLat / regionData.length,
+          lng: totalLng / regionData.length,
+        });
+      }
+
       for (let i = 0; i < regionData.length; i++) {
         $.ajax({
           method: "GET",
@@ -424,20 +406,17 @@ function getBike(country, countryCode, city) {
           success: function (data) {
             console.log(data);
             console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
-            //var uluru = { lat: -25.344, lng: 131.036 };
-            titleSub.textContent = "Bike stations in " + city + ", " + country;
-            // form.classList.add("d-none");
-            // change the center of the map and zoom in
-            map.setCenter({
-              lat: data.network.location.latitude,
-              lng: data.network.location.longitude,
-            });
+
+            if (city && country) {
+              titleSub.textContent =
+                "Bike stations in " + city + ", " + country;
+            } else if (!country) {
+              titleSub.textContent = "Bike stations in " + city;
+            } else if (!city) {
+              titleSub.textContent = "Bike stations in " + country;
+            }
 
             for (let j = 0; j < data.network.stations.length; j++) {
-              // var infowindow = new google.maps.InfoWindow({
-              //   content: "<span>" + data.network.stations[j].name + "</span>",
-              // });
-
               const marker = new google.maps.Marker({
                 position: {
                   lat: data.network.stations[j].latitude,
@@ -446,23 +425,17 @@ function getBike(country, countryCode, city) {
               });
 
               var content =
-                "<h3>" +
+                "<h5>" +
                 data.network.stations[j].name +
-                "</h3>" +
-                "<h4>Available Bikes: " +
+                "</h5>" +
+                "<div><h6>Available Bikes: " +
                 data.network.stations[j].empty_slots +
-                "</h4>" +
-                "<h4>" +
+                "</h6></div>" +
+                "<div><h6>" +
                 "Available E-Bikes: " +
                 data.network.stations[j].extra.ebikes +
-                "</h4>";
+                "</h6></div>";
 
-              // var content =
-              //   "Station Name: " +
-              //   data.network.stations[j].name +
-              //   "\n" +
-              //   " Available bikes: " +
-              //   data.network.stations[j].empty_slots;
               var infowindow = new google.maps.InfoWindow();
 
               google.maps.event.addListener(
@@ -501,13 +474,14 @@ function getBike(country, countryCode, city) {
                 city
               );
             }
-            map.setZoom(10);
+            map.setZoom(5);
           },
           error: function (err) {
             console.log(err);
           },
         });
       }
+      exploreBtn.textContent = "Explore Another Location";
     },
     error: function (err) {
       console.log(err);
@@ -555,22 +529,3 @@ function addToTable(
   );
   bikeTableBody.appendChild(newRow);
 }
-// get bike data
-// $.ajax({
-//   method: "GET",
-//   url: "http://api.citybik.es/v2/networks",
-//   success: function (data) {
-//     console.log(data);
-//     // console.log(data.networks.length);
-//     // console.log(data.networks);
-//     // console.log(data.networks[0].location.country);
-//     // for (var i = 0; i < data.networks.length; i++) {
-//     //   if (data.networks[i].location.city === "Barcelona") {
-//     //     console.log(data.networks[i]);
-//     //   }
-//     // }
-//   },
-//   error: function (err) {
-//     console.log(err);
-//   },
-// });
