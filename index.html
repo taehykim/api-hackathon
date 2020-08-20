@@ -26,17 +26,16 @@
             >Which country are you going?
             <div>Not sure where to go? Check out</div>
           </label>
-          <select name="country-select" id="country-select">
+          <select name="country-select" id="country-select" class="select-tag">
             <option value="">List of Countries</option>
           </select>
 
           <input
             type="text"
-            name="country"
+            name="country-text"
             id="country"
             class="form-control"
             placeholder="We have over 50 countries with bike stations around the world"
-            required
           />
         </div>
         <div class="form-group">
@@ -44,13 +43,12 @@
             >Which city are you going?
             <div>Not sure where to go? Check out</div>
           </label>
-          <select name="city-select" id="city-select">
+          <select name="city-select" id="city-select" class="select-tag">
             <option value="">List of Cities</option>
           </select>
-
           <input
             type="text"
-            name="city"
+            name="city-text"
             id="city"
             class="form-control"
             placeholder="We have over 600 cities with bike stations around the world"
@@ -88,8 +86,7 @@
     ></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+    <script src="countryCode.js"></script>
     <script src="main.js"></script>
-    <script src="googleMap.js"></script>
   </body>
 </html>

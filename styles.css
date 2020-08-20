@@ -69,6 +69,10 @@ form {
   margin-bottom: 1rem;
 }
 
+.select-tag {
+  margin-bottom: 0.5rem;
+}
+
 .world-data-list-btn {
   padding: 0.2rem 0.3rem 0.2rem 0.3rem;
   font-size: 0.8rem;
