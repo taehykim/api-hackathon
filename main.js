@@ -21,7 +21,6 @@ cykelAnchor.addEventListener("click", function () {
   map.setZoom(11);
   removeTable();
   removeNav(document.querySelector("#nav"));
-  document.getElementById("stats").classList.add("d-none");
   bikeTable.classList.add("d-none");
   form.reset();
   exploreBtn.textContent = "Explore";
@@ -29,7 +28,7 @@ cykelAnchor.addEventListener("click", function () {
 
 selectCountry.addEventListener("change", function () {
   const countryName = event.target.value;
-  createCitySelectTags(getCity(countries[countryName]));
+  createCitySelectTags(getCity(countryLong[countryName]));
 });
 
 form.addEventListener("submit", handleSubmit);
@@ -39,7 +38,7 @@ function handleSubmit(event) {
   const formData = new FormData(event.target);
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
-  const countryCode = countries[countrySelect];
+  const countryCode = countryLong[countrySelect];
 
   removeTable();
   removeNav(document.getElementById("nav"));
@@ -49,16 +48,13 @@ function handleSubmit(event) {
 // Google Maps API
 let map;
 var sf = { lat: 37.7946, lng: -122.3999 };
-// Initialize and add the map
 function initMap() {
-  // var sf = { lat: 37.7946, lng: -122.3999 };
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 2,
     center: sf,
   });
 }
 
-// Get Bike Data
 function getAllBike() {
   $.ajax({
     method: "GET",
@@ -81,7 +77,6 @@ function getAllBike() {
             method: "GET",
             url: "http://api.citybik.es" + data.networks[i].href,
             success: function (data) {
-              // console.log(data);
               for (let j = 0; j < data.network.stations.length; j++) {
                 const marker = new google.maps.Marker({
                   position: {
@@ -107,7 +102,6 @@ function getAllBike() {
   });
 }
 
-// Get bike data for the selected country and city
 function getBike(country, countryCode, city) {
   $.ajax({
     method: "GET",
@@ -118,31 +112,15 @@ function getBike(country, countryCode, city) {
       exampleMapText.classList.add("d-none");
       const regionData = [];
 
-      if (!city) {
-        city = "";
-        for (let i = 0; i < data.networks.length; i++) {
-          if (data.networks[i].location.country.includes(countryCode)) {
-            regionData.push(data.networks[i]);
-          }
-        }
-      } else if (!country) {
-        country = "";
-        for (let i = 0; i < data.networks.length; i++) {
-          if (data.networks[i].location.city.includes(city)) {
-            regionData.push(data.networks[i]);
-          }
-        }
-      } else {
-        for (let i = 0; i < data.networks.length; i++) {
-          if (
-            data.networks[i].location.city.includes(city) &&
-            data.networks[i].location.country.includes(countryCode)
-          ) {
-            regionData.push(data.networks[i]);
-          }
+      for (let i = 0; i < data.networks.length; i++) {
+        if (
+          data.networks[i].location.city.includes(city) &&
+          data.networks[i].location.country.includes(countryCode)
+        ) {
+          regionData.push(data.networks[i]);
         }
       }
-      // console.log(regionData);
+
       if (regionData.length != 0) {
         let totalLat = 0;
         let totalLng = 0;
@@ -163,21 +141,10 @@ function getBike(country, countryCode, city) {
           method: "GET",
           url: "http://api.citybik.es" + regionData[i].href,
           success: function (data) {
-            // console.log(data);
-            // console.log(data.network.stations); // this has lat and long of stations and emply slots and free bikes number
-
-            if (city && country) {
-              titleSub.textContent =
-                "Bike stations in " + city + ", " + country;
-            } else if (!country) {
-              titleSub.textContent = "Bike stations in " + city;
-            } else if (!city) {
-              titleSub.textContent = "Bike stations in " + country;
-            }
-
             totalStations += data.network.stations.length;
-            // console.log("total stations:", totalStations);
-            displayTotal(totalStations);
+            titleSub.textContent =
+              totalStations + " Bike stations in " + city + ", " + country;
+
             for (let j = 0; j < data.network.stations.length; j++) {
               const marker = new google.maps.Marker({
                 position: {
@@ -248,7 +215,6 @@ function getBike(country, countryCode, city) {
             }
             map.setZoom(14);
             pageTable();
-            // removeNavs();
           },
           error: function (err) {
             console.log(err);
@@ -309,11 +275,11 @@ function createCountrySelectTags(countries) {
   }
 }
 
-function displayTotal(totalStations) {
-  document.getElementById("stats").classList.remove("d-none");
-  document.getElementById("stats").textContent =
-    "There are total " + totalStations + " Bike Stations in this area";
-}
+// function displayTotal(totalStations) {
+//   document.getElementById("stats").classList.remove("d-none");
+//   document.getElementById("stats").textContent =
+//     "There are total " + totalStations + " Bike Stations in this area";
+// }
 
 function removeNav(nav) {
   if (nav) nav.remove();

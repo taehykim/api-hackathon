@@ -246,7 +246,7 @@ const countryShort = {
   ZW: "Zimbabwe",
 };
 
-const countries = {
+const countryLong = {
   Afghanistan: "AF",
   "Aland Islands": "AX",
   Albania: "AL",
