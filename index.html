@@ -15,12 +15,14 @@
   </head>
   <body>
     <div class="container">
-      <div class="row title"><a href="#" id="cykel-anchor">CYKEL</a></div>
+      <div class="row title bg-light-blue">
+        <a href="#" id="cykel-anchor">CYKEL</a>
+      </div>
       <div class="row title-sub">
         <span>Get out and bike in your favorite city</span>
       </div>
 
-      <form id="location-form">
+      <form id="location-form" class="mb-1">
         <div class="form-group">
           <label for="country"
             >Which country are you going?
@@ -33,6 +35,7 @@
             name="country-select"
             id="country-select"
             class="select-tag form-control"
+            required
           >
             <option value="">List of Countries</option>
           </select>
@@ -49,11 +52,12 @@
             name="city-select"
             id="city-select"
             class="select-tag form-control"
+            required
           >
             <option value="">List of Cities</option>
           </select>
         </div>
-        <button type="submit" class="explore-btn">Explore</button>
+        <button type="submit" class="explore-btn bg-light-blue">Explore</button>
       </form>
 
       <div class="row" id="example-map">

@@ -13,10 +13,8 @@ let worldData = [];
 let city = [];
 let country = [];
 
-// get Bikes in SF area by default (main landing page)
 getAllBike();
 
-// event listeners
 cykelAnchor.addEventListener("click", function () {
   titleSub.textContent = "Get out and bike in your favorite city";
   map.setCenter(sf);
@@ -35,22 +33,14 @@ selectCountry.addEventListener("change", function () {
 });
 
 form.addEventListener("submit", handleSubmit);
+
 function handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
-  // console.log(countrySelect, citySelect);
-  if (!countrySelect && !citySelect) {
-    alert("You must selected a country or a city that you want to visit");
-    return false;
-  }
-  // const countryText = formData.get("country-text");
-  // const cityText = formData.get("city-text");
-  // console.log("countrySelect:", countrySelect, "citySelect:", citySelect);
-
   const countryCode = countries[countrySelect];
-  // console.log(countrySelect, countryCode, citySelect);
+
   removeTable();
   removeNav(document.getElementById("nav"));
   getBike(countrySelect, countryCode, citySelect);
@@ -245,13 +235,15 @@ function getBike(country, countryCode, city) {
                 eBikes = 0;
               }
 
-              addToTable(
-                stationName,
-                totalBikes,
-                availableBikes,
-                eBikes,
-                country,
-                city
+              bikeTableBody.appendChild(
+                getNewRow(
+                  stationName,
+                  totalBikes,
+                  availableBikes,
+                  eBikes,
+                  country,
+                  city
+                )
               );
             }
             map.setZoom(14);
@@ -288,31 +280,31 @@ function resetSelectTags(select) {
   }
 }
 
-function createCitySelectTags(cityArr) {
+function createCitySelectTags(cities) {
   resetSelectTags(citySelect);
-  cityArr = cityArr.sort();
+  cities = cities.sort();
   var firstOptionTag = document.createElement("option");
   firstOptionTag.value = "";
   firstOptionTag.textContent = "List of Cities";
   citySelect.appendChild(firstOptionTag);
 
-  for (var i = 0; i < cityArr.length; i++) {
+  for (var i = 0; i < cities.length; i++) {
     var option = document.createElement("option");
-    option.value = cityArr[i];
-    option.textContent = cityArr[i];
+    option.value = cities[i];
+    option.textContent = cities[i];
     citySelect.appendChild(option);
   }
 }
 
-function createCountrySelectTags(countryArr) {
-  for (var i = 0; i < countryArr.length; i++) {
-    countryArr[i] = countryShort[countryArr[i]];
+function createCountrySelectTags(countries) {
+  for (var i = 0; i < countries.length; i++) {
+    countries[i] = countryShort[countries[i]];
   }
-  countryArr = countryArr.sort();
-  for (var i = 0; i < countryArr.length; i++) {
+  countries = countries.sort();
+  for (var i = 0; i < countries.length; i++) {
     var option = document.createElement("option");
-    option.value = countryArr[i];
-    option.textContent = countryArr[i];
+    option.value = countries[i];
+    option.textContent = countries[i];
     countrySelect.appendChild(option);
   }
 }
@@ -324,33 +316,21 @@ function displayTotal(totalStations) {
 }
 
 function removeNav(nav) {
-  // console.log("hello from remove nav");
-  // console.log(nav);
-  if (nav) {
-    // console.log("About to remove");
-    nav.remove();
-    // console.log(document.getElementById("nav"));
-  }
+  if (nav) nav.remove();
 }
 
 function removeNavs() {
-  // console.log("removing navs!!!!");
   const navs = document.querySelectorAll("#nav");
-  // console.log(navs.length);
   for (let i = 1; i < navs.length; i++) {
-    // console.log("removing navs!!!! inside for loop");
     container.removeChild(navs[i]);
   }
-  // console.log(document.querySelectorAll("#nav").length);
 }
 
 function removeTable() {
-  while (bikeTableBody.firstElementChild) {
-    bikeTableBody.removeChild(bikeTableBody.firstElementChild);
-  }
+  bikeTableBody.innerHTML = "";
 }
 
-function addToTable(
+function getNewRow(
   stationName,
   totalBikes,
   availableBikes,
@@ -389,11 +369,11 @@ function addToTable(
     availableBikesTd,
     eBikesTd
   );
-  bikeTableBody.appendChild(newRow);
+
+  return newRow;
 }
 
 function pageTable() {
-  // console.log("calling pageTable");
   $(document).ready(function () {
     $("#data").after('<div id="nav"></div>');
     var rowsShown = 10;
