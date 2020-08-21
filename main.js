@@ -1,4 +1,3 @@
-// global variables
 const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
 const bikeTable = document.querySelector("table");

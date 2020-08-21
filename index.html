@@ -24,35 +24,34 @@
         <div class="form-group">
           <label for="country"
             >Which country are you going?
-            <div>Not sure where to go? Check out</div>
+            <div class="select-description">
+              We have over 50 countries with bike stations around the world.
+              Check Out:
+            </div>
           </label>
-          <select name="country-select" id="country-select" class="select-tag">
+          <select
+            name="country-select"
+            id="country-select"
+            class="select-tag form-control"
+          >
             <option value="">List of Countries</option>
           </select>
-
-          <input
-            type="text"
-            name="country-text"
-            id="country"
-            class="form-control"
-            placeholder="We have over 50 countries with bike stations around the world"
-          />
         </div>
         <div class="form-group">
           <label for="city"
             >Which city are you going?
-            <div>Not sure where to go? Check out</div>
+            <div class="select-description">
+              We have over 600 cities with bike stations around the world. Check
+              Out:
+            </div>
           </label>
-          <select name="city-select" id="city-select" class="select-tag">
+          <select
+            name="city-select"
+            id="city-select"
+            class="select-tag form-control"
+          >
             <option value="">List of Cities</option>
           </select>
-          <input
-            type="text"
-            name="city-text"
-            id="city"
-            class="form-control"
-            placeholder="We have over 600 cities with bike stations around the world"
-          />
         </div>
         <button type="submit" class="explore-btn">Explore</button>
       </form>

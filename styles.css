@@ -40,6 +40,7 @@ form {
 
 #city-name {
   display: block;
+  font-weight: 800;
 }
 
 #map {
@@ -60,6 +61,17 @@ form {
 .select-tag {
   margin-bottom: 0.5rem;
   width: 100%;
+  outline: none;
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.select-description {
+  font-size: 1rem;
+  font-weight: normal;
 }
 
 option {
