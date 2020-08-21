@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <title>CYKEL</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row title bg-light-blue">
+        <a href="#" id="cykel-anchor">CYKEL</a>
+      </div>
+      <div class="row title-sub">
+        <span>Get out and bike in your favorite city</span>
+      </div>
+
+      <form id="location-form" class="mb-3">
+        <div class="form-group">
+          <label for="country"
+            >Which country are you going?
+            <div class="select-description">
+              We have over 50 countries with bike stations around the world.
+              Check Out:
+            </div>
+          </label>
+          <select
+            name="country-select"
+            id="country-select"
+            class="select-tag form-control"
+            required
+          >
+            <option value="">List of Countries</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city"
+            >Which city are you going?
+            <div class="select-description">
+              We have over 600 cities with bike stations around the world. Check
+              Out:
+            </div>
+          </label>
+          <select
+            name="city-select"
+            id="city-select"
+            class="select-tag form-control"
+            required
+          >
+            <option value="">List of Cities</option>
+          </select>
+        </div>
+        <button type="submit" class="explore-btn bg-light-blue">Explore</button>
+      </form>
+
+      <div class="row" id="example-map">
+        <span
+          >Explore near and far from ordinary:
+          <span id="city-name">San Francisco, CA USA</span></span
+        >
+      </div>
+
+      <div id="map"></div>
+      <table class="table d-none table-responsive" id="data">
+        <thead>
+          <tr>
+            <th class="station">Station</th>
+            <th class="city">City</th>
+            <th class="country">Country</th>
+            <th class="total-bikes">Total Bikes</th>
+            <th class="available-bikes">Currently Available Bikes</th>
+            <th class="e-bikes">E-Bikes</th>
+          </tr>
+        </thead>
+        <tbody id="bike-table-body"></tbody>
+      </table>
+    </div>
+
+    <script
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlAnOhP2rItxDatVMVMHIKWFxdSXtgOns&callback=initMap"
+    ></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="countryCode.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

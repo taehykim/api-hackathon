@@ -1,0 +1,84 @@
+.bg-light-blue {
+  background-color: #b0e1ec;
+}
+
+.title {
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.title-sub {
+  background-color: #eef3f4;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.explore-btn {
+  padding: 0.4rem 0.6rem 0.4rem 0.6rem;
+  border: transparent;
+  font-size: 1.2rem;
+  border-radius: 20px;
+  outline: none;
+  text-align: right;
+}
+
+form {
+  /* margin-bottom: 1rem; */
+}
+
+#example-map {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  padding-left: 0.8rem;
+}
+
+#city-name {
+  display: block;
+  font-weight: 800;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+#stats {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+#nav {
+  text-align: right;
+}
+
+.select-tag {
+  margin-bottom: 0.5rem;
+  width: 100%;
+  outline: none;
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.select-description {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+option {
+  width: 100%;
+}
+
+.world-data-list-btn {
+  padding: 0.2rem 0.3rem 0.2rem 0.3rem;
+  font-size: 0.8rem;
+  outline: none;
+  background-color: #b0e1ec;
+  border: transparent;
+  border-radius: 20px;
+}
