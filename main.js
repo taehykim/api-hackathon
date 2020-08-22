@@ -9,6 +9,7 @@ const countrySelect = document.getElementById("country-select");
 const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
 const container = document.querySelector(".container");
+const stationCards = document.getElementById("station-cards");
 let worldData = [];
 let city = [];
 let country = [];
@@ -108,7 +109,7 @@ function getBike(country, countryCode, city) {
     url: "http://api.citybik.es/v2/networks",
     success: function (data) {
       let totalStations = 0;
-      bikeTable.classList.remove("d-none");
+      // bikeTable.classList.remove("d-none");
       exampleMapText.classList.add("d-none");
       const regionData = [];
 
@@ -202,19 +203,30 @@ function getBike(country, countryCode, city) {
                 eBikes = 0;
               }
 
-              bikeTableBody.appendChild(
-                getNewRow(
+              stationCards.appendChild(
+                createStationCard(
                   stationName,
-                  totalBikes,
                   availableBikes,
                   eBikes,
                   country,
                   city
                 )
               );
+
+              // bikeTableBody.appendChild(
+              //   getNewRow(
+              //     stationName,
+              //     totalBikes,
+              //     availableBikes,
+              //     eBikes,
+              //     country,
+              //     city
+              //   )
+              // );
             }
             map.setZoom(14);
-            pageTable();
+            // pageTable();
+            container.appendChild(pageCards());
           },
           error: function (err) {
             console.log(err);
@@ -293,7 +305,7 @@ function removeNavs() {
 }
 
 function removeTable() {
-  bikeTableBody.innerHTML = "";
+  // bikeTableBody.innerHTML = "";
 }
 
 function getNewRow(
@@ -337,6 +349,65 @@ function getNewRow(
   );
 
   return newRow;
+}
+
+function createStationCard(stationName, availableBikes, eBikes, country, city) {
+  const card = document.createElement("div");
+  const stationNameDiv = document.createElement("div");
+  const cityDiv = document.createElement("div");
+  const countryDiv = document.createElement("div");
+  const bikeDataDiv = document.createElement("div");
+  const bikeDiv = document.createElement("div");
+  const eBikeDiv = document.createElement("div");
+  const bikeSpan = document.createElement("span");
+  const eBikeSpan = document.createElement("span");
+
+  card.classList.add("card");
+  card.classList.add("mb-3", "p-2", "text-center");
+  stationNameDiv.classList.add("font-weight-bold");
+  stationNameDiv.textContent = stationName;
+  cityDiv.textContent = city;
+  countryDiv.textContent = country;
+  bikeSpan.textContent = availableBikes;
+  eBikeSpan.textContent = eBikes;
+  bikeDiv.textContent = "Available Bikes: ";
+  bikeDiv.appendChild(bikeSpan);
+  eBikeDiv.textContent = "Available E-Bikes: ";
+  eBikeDiv.appendChild(eBikeSpan);
+  bikeDataDiv.append(bikeDiv, eBikeDiv);
+
+  card.append(stationNameDiv, cityDiv, countryDiv, bikeDataDiv);
+  return card;
+}
+
+function pageCards() {
+  const nav = document.createElement("div");
+  nav.classList.add("nav");
+  const cardsShown = 20;
+  const cardsTotal = document.querySelectorAll(".card").length;
+  const numPages = cardsTotal / cardsShown;
+  console.log(numPages);
+  for (let i = 0; i < numPages; i++) {
+    let pageNum = i + 1;
+    let anchorTag = document.createElement("a");
+    anchorTag.href = "#";
+    anchorTag.textContent = pageNum;
+
+    nav.appendChild(anchorTag);
+  }
+  console.log(nav);
+  [...stationCards.children].forEach((div) => div.classList.add("d-none"));
+
+  [...stationCards.children]
+    .slice(0, cardsShown)
+    .forEach((div) => div.classList.remove("d-none"));
+  nav.firstElementChild.classList.add("active");
+  [...nav.children].forEach((aTag) =>
+    aTag.addEventListener("click", function () {
+      console.log(event.target);
+    })
+  );
+  return nav;
 }
 
 function pageTable() {

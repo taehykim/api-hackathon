@@ -82,3 +82,11 @@ option {
   border: transparent;
   border-radius: 20px;
 }
+
+.card {
+  border-radius: 20px;
+}
+
+.card-data {
+  font-weight: 800;
+}
