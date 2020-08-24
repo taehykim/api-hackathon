@@ -95,3 +95,16 @@ option {
 .card-data {
   font-weight: 800;
 }
+
+.active {
+  background-color: #393a3b;
+  border-radius: 50%;
+}
+
+li.active a {
+  color: white;
+}
+
+a {
+  color: #393a3b;
+}

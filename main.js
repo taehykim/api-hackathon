@@ -43,7 +43,6 @@ function handleSubmit(event) {
   const citySelect = formData.get("city-select");
   const countryCode = countryLong[countrySelect];
 
-  removeTable();
   removeNav(document.getElementById("nav"));
   getBike(countrySelect, countryCode, citySelect);
 }
@@ -149,9 +148,6 @@ function getBike(country, countryCode, city) {
               totalStations + " Bike Stations in ";
             cityCountry.textContent = city + ", " + country;
 
-            // titleSub.textContent =
-            //   totalStations + " Bike stations in " + city + ", " + country;
-
             for (let j = 0; j < data.network.stations.length; j++) {
               const marker = new google.maps.Marker({
                 position: {
@@ -247,7 +243,6 @@ function getBike(country, countryCode, city) {
   });
 }
 
-// functions
 function getCity(countryCode) {
   var filteredCity = [];
   for (var i = 0; i < worldData.networks.length; i++) {
@@ -293,12 +288,6 @@ function createCountrySelectTags(countries) {
   }
 }
 
-// function displayTotal(totalStations) {
-//   document.getElementById("stats").classList.remove("d-none");
-//   document.getElementById("stats").textContent =
-//     "There are total " + totalStations + " Bike Stations in this area";
-// }
-
 function removeNav(nav) {
   if (nav) nav.remove();
 }
@@ -308,10 +297,6 @@ function removeNavs() {
   for (let i = 1; i < navs.length; i++) {
     container.removeChild(navs[i]);
   }
-}
-
-function removeTable() {
-  // bikeTableBody.innerHTML = "";
 }
 
 function getNewRow(
@@ -387,21 +372,27 @@ function createStationCard(stationName, availableBikes, eBikes, country, city) {
 }
 
 function pageCards() {
-  const nav = document.createElement("div");
-  nav.classList.add("nav");
+  const nav = document.createElement("ul");
+  nav.classList.add("nav", "justify-content-center");
   const cardsShown = 20;
   const cardsTotal = document.querySelectorAll(".card").length;
   const numPages = cardsTotal / cardsShown;
   console.log(numPages);
   for (let i = 0; i < numPages; i++) {
     let pageNum = i + 1;
+    let listTag = document.createElement("li");
+    listTag.classList.add("nav-item");
     let anchorTag = document.createElement("a");
+    anchorTag.classList.add("nav-link");
     anchorTag.href = "#";
+    anchorTag.rel = pageNum;
     anchorTag.textContent = pageNum;
+    listTag.appendChild(anchorTag);
 
-    nav.appendChild(anchorTag);
+    nav.appendChild(listTag);
   }
-  console.log(nav);
+  // console.log(nav);
+
   [...stationCards.children].forEach((div) => div.classList.add("d-none"));
 
   [...stationCards.children]
