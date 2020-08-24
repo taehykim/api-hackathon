@@ -1,5 +1,7 @@
 const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
+const numOfBikeStations = document.getElementById("num-of-stations");
+const cityCountry = document.getElementById("city-country");
 const bikeTable = document.querySelector("table");
 const bikeTableBody = document.getElementById("bike-table-body");
 const exampleMapText = document.getElementById("example-map");
@@ -143,8 +145,12 @@ function getBike(country, countryCode, city) {
           url: "http://api.citybik.es" + regionData[i].href,
           success: function (data) {
             totalStations += data.network.stations.length;
-            titleSub.textContent =
-              totalStations + " Bike stations in " + city + ", " + country;
+            numOfBikeStations.textContent =
+              totalStations + " Bike Stations in ";
+            cityCountry.textContent = city + ", " + country;
+
+            // titleSub.textContent =
+            //   totalStations + " Bike stations in " + city + ", " + country;
 
             for (let j = 0; j < data.network.stations.length; j++) {
               const marker = new google.maps.Marker({
