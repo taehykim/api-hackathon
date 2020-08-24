@@ -368,7 +368,7 @@ function createStationCard(stationName, availableBikes, eBikes, country, city) {
 function pageCards() {
   const nav = document.createElement("ul");
   nav.classList.add("nav", "justify-content-center", "mb-3", "nav-numbers");
-  // const cardsShown = 20;
+
   const cardsTotal = document.querySelectorAll(".card").length;
   const numPages = cardsTotal / cardsShown;
 
@@ -494,8 +494,8 @@ function shortenPageDisplay(currPage, totalPage) {
           )
           .forEach((div) => div.classList.remove("d-none"));
 
-        minPage = 7;
-        maxPage = 10;
+        minPage = totalPage - 3;
+        maxPage = totalPage;
 
         shortenPageDisplay(minPage, totalPage);
       });
