@@ -12,6 +12,7 @@ const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
 const container = document.querySelector(".container");
 const stationCards = document.getElementById("station-cards");
+const cardsShown = 20;
 let worldData = [];
 let city = [];
 let country = [];
@@ -22,8 +23,8 @@ cykelAnchor.addEventListener("click", function () {
   titleSub.textContent = "Get out and bike in your favorite city";
   map.setCenter(sf);
   map.setZoom(11);
-  removeTable();
-  removeNav(document.querySelector("#nav"));
+  removeCards();
+  removeNav(document.querySelector(".nav"));
   bikeTable.classList.add("d-none");
   form.reset();
   exploreBtn.textContent = "Explore";
@@ -42,8 +43,8 @@ function handleSubmit(event) {
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
   const countryCode = countryLong[countrySelect];
-
-  removeNav(document.getElementById("nav"));
+  removeCards();
+  removeNav(document.querySelector(".nav"));
   getBike(countrySelect, countryCode, citySelect);
 }
 
@@ -214,21 +215,10 @@ function getBike(country, countryCode, city) {
                   city
                 )
               );
-
-              // bikeTableBody.appendChild(
-              //   getNewRow(
-              //     stationName,
-              //     totalBikes,
-              //     availableBikes,
-              //     eBikes,
-              //     country,
-              //     city
-              //   )
-              // );
             }
             map.setZoom(14);
-            // pageTable();
             container.appendChild(pageCards());
+            shortenPageDisplay(0, totalStations / 20);
           },
           error: function (err) {
             console.log(err);
@@ -286,6 +276,10 @@ function createCountrySelectTags(countries) {
     option.textContent = countries[i];
     countrySelect.appendChild(option);
   }
+}
+
+function removeCards() {
+  document.getElementById("station-cards").innerHTML = "";
 }
 
 function removeNav(nav) {
@@ -373,11 +367,11 @@ function createStationCard(stationName, availableBikes, eBikes, country, city) {
 
 function pageCards() {
   const nav = document.createElement("ul");
-  nav.classList.add("nav", "justify-content-center");
-  const cardsShown = 20;
+  nav.classList.add("nav", "justify-content-center", "mb-3", "nav-numbers");
+  // const cardsShown = 20;
   const cardsTotal = document.querySelectorAll(".card").length;
   const numPages = cardsTotal / cardsShown;
-  console.log(numPages);
+
   for (let i = 0; i < numPages; i++) {
     let pageNum = i + 1;
     let listTag = document.createElement("li");
@@ -385,84 +379,146 @@ function pageCards() {
     let anchorTag = document.createElement("a");
     anchorTag.classList.add("nav-link");
     anchorTag.href = "#";
-    anchorTag.rel = pageNum;
+    anchorTag.rel = i;
     anchorTag.textContent = pageNum;
     listTag.appendChild(anchorTag);
-
     nav.appendChild(listTag);
   }
-  // console.log(nav);
 
   [...stationCards.children].forEach((div) => div.classList.add("d-none"));
 
   [...stationCards.children]
     .slice(0, cardsShown)
     .forEach((div) => div.classList.remove("d-none"));
-  nav.firstElementChild.classList.add("active");
+
+  nav.firstElementChild.firstElementChild.classList.add("active");
+
   [...nav.children].forEach((aTag) =>
     aTag.addEventListener("click", function () {
-      console.log(event.target);
+      document.querySelector("a.active").classList.remove("active");
+      event.target.classList.add("active");
+
+      let currPage = event.target.attributes.rel.value;
+      let startRow = currPage * cardsShown;
+      let endRow = startRow + cardsShown;
+
+      shortenPageDisplay(currPage, numPages);
+
+      [...stationCards.children].forEach((div) => div.classList.add("d-none"));
+
+      [...stationCards.children]
+        .slice(startRow, endRow)
+        .forEach((div) => div.classList.remove("d-none"));
     })
   );
+
   return nav;
 }
 
-function pageTable() {
-  $(document).ready(function () {
-    $("#data").after('<div id="nav"></div>');
-    var rowsShown = 10;
-    var rowsTotal = $("#data tbody tr").length;
-    var numPages = rowsTotal / rowsShown;
-    for (let i = 0; i < numPages; i++) {
-      var pageNum = i + 1;
-      $("#nav").append('<a href="#" rel="' + i + '">' + pageNum + "</a> ");
+function shortenPageDisplay(currPage, totalPage) {
+  let minPage = Number(currPage) - 2;
+  if (minPage < 0) {
+    minPage = 0;
+  } else if (minPage > totalPage - 5) {
+    minPage = totalPage - 5;
+  }
+  let maxPage = minPage + 5;
+
+  if (maxPage > totalPage) {
+    maxPage = totalPage;
+  }
+
+  if (minPage != 0) {
+    if (!document.querySelector(".first-li")) {
+      let firstArrowLi = document.createElement("span");
+      let firstArrowAnchor = document.createElement("a");
+      firstArrowLi.classList.add("nav-item", "first-li");
+      firstArrowAnchor.classList.add("nav-link", "arrow-left");
+
+      firstArrowAnchor.textContent = "<";
+      firstArrowLi.appendChild(firstArrowAnchor);
+
+      firstArrowAnchor.addEventListener("click", function () {
+        document.querySelector("a.active").classList.remove("active");
+        if (document.querySelector(".first-li")) {
+          document.querySelector(".first-li").remove();
+        }
+        document
+          .querySelector("ul")
+          .firstElementChild.firstElementChild.classList.add("active");
+
+        [...stationCards.children].forEach((div) =>
+          div.classList.add("d-none")
+        );
+        [...stationCards.children]
+          .slice(0, cardsShown)
+          .forEach((div) => div.classList.remove("d-none"));
+
+        minPage = 0;
+        maxPage = 5;
+
+        shortenPageDisplay(minPage, totalPage);
+      });
+
+      document
+        .querySelector("a.active")
+        .parentElement.parentElement.prepend(firstArrowLi);
     }
+  }
 
-    $("#data tbody tr").hide();
-    $("#data tbody tr").slice(0, rowsShown).show();
-    $("#nav a:first").addClass("active");
-    $("#nav a").bind("click", function () {
-      $("#nav a").removeClass("active");
-      $(this).addClass("active");
-      var currPage = $(this).attr("rel");
-      var startItem = currPage * rowsShown;
-      var endItem = startItem + rowsShown;
-      $("#data tbody tr")
-        .css("opacity", "0.0") // making it 100% transparent
-        .hide() // remove the tbody tr from the DOM
-        .slice(startItem, endItem) // cut the row
-        .css("display", "table-row") // displays the row (gives spaces for the row in DOM) but transparent
-        .animate({ opacity: 1 }, 300); // in 300 milliseconds, change opacity to 1, so you can view it
-    });
-    removeNavs();
-  });
+  if (maxPage != totalPage) {
+    if (!document.querySelector(".last-li")) {
+      let tempArrowLi = document.createElement("span");
+      let tempArrowAnchor = document.createElement("a");
+      tempArrowLi.classList.add("nav-item", "last-li");
+      tempArrowAnchor.classList.add("nav-link", "arrow-right");
+
+      tempArrowAnchor.textContent = ">";
+      tempArrowLi.appendChild(tempArrowAnchor);
+      tempArrowAnchor.addEventListener("click", function () {
+        document.querySelector("a.active").classList.remove("active");
+        if (document.querySelector(".last-li")) {
+          document.querySelector(".last-li").remove();
+        }
+        document
+          .querySelector("ul")
+          .lastElementChild.firstElementChild.classList.add("active");
+
+        [...stationCards.children].forEach((div) =>
+          div.classList.add("d-none")
+        );
+        [...stationCards.children]
+          .slice(
+            document.querySelectorAll(".card").length - cardsShown,
+            document.querySelectorAll(".card").length
+          )
+          .forEach((div) => div.classList.remove("d-none"));
+
+        minPage = 7;
+        maxPage = 10;
+
+        shortenPageDisplay(minPage, totalPage);
+      });
+
+      document
+        .querySelector("a.active")
+        .parentElement.parentElement.appendChild(tempArrowLi);
+    }
+  }
+
+  if (maxPage >= totalPage) {
+    if (document.querySelector(".last-li")) {
+      document.querySelector(".last-li").remove();
+    }
+  }
+
+  for (let i = 0; i < totalPage; i++) {
+    if (i < minPage) {
+      document.querySelectorAll("li")[i].classList.add("d-none");
+    } else if (i >= maxPage) {
+      document.querySelectorAll("li")[i].classList.add("d-none");
+    } else {
+      document.querySelectorAll("li")[i].classList.remove("d-none");
+    }
+  }
 }
-
-//trying to get user's location on the main page
-// var currentLocation = {};
-// //   var sf = { lat: 37.7749, lng: -122.4194 };
-
-// var options = {
-//   enableHighAccuracy: true,
-//   timeout: 5000,
-//   maximumAge: 0,
-// };
-
-// function success(pos) {
-//   var crd = pos.coords;
-
-//   console.log("Your current position is:");
-//   console.log(`Latitude : ${crd.latitude}`);
-//   console.log(`Longitude: ${crd.longitude}`);
-//   console.log(`More or less ${crd.accuracy} meters.`);
-//   currentLocation.lat = parseFloat(crd.latitude);
-//   currentLocation.lng = parseFloat(crd.longitude);
-
-//   getAllBike(crd);
-// }
-
-// function error(err) {
-//   console.warn(`ERROR(${err.code}): ${err.message}`);
-// }
-
-// navigator.geolocation.getCurrentPosition(success, error, options);

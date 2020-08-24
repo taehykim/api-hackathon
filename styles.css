@@ -99,12 +99,25 @@ option {
 .active {
   background-color: #393a3b;
   border-radius: 50%;
+  border: 2px solid #393a3b;
 }
 
-li.active a {
+a.active {
   color: white;
 }
 
 a {
   color: #393a3b;
+}
+
+.arrow-right,
+.arrow-left {
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px #747474;
+  cursor: pointer;
+}
+
+.nav-numbers {
+  align-items: center;
 }
