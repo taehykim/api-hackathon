@@ -2,8 +2,6 @@ const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
 const numOfBikeStations = document.getElementById("num-of-stations");
 const cityCountry = document.getElementById("city-country");
-const bikeTable = document.querySelector("table");
-const bikeTableBody = document.getElementById("bike-table-body");
 const exampleMapText = document.getElementById("example-map");
 const exploreBtn = document.querySelector(".explore-btn");
 const citySelect = document.getElementById("city-select");
@@ -20,12 +18,12 @@ let country = [];
 getAllBike();
 
 cykelAnchor.addEventListener("click", function () {
-  titleSub.textContent = "Get out and bike in your favorite city";
+  numOfBikeStations.textContent = "";
+  cityCountry.textContent = "Get out and bike in your favorite city";
   map.setCenter(sf);
   map.setZoom(11);
   removeCards();
   removeNav(document.querySelector(".nav"));
-  bikeTable.classList.add("d-none");
   form.reset();
   exploreBtn.textContent = "Explore";
 });
