@@ -444,7 +444,7 @@ function shortenPageDisplay(currPage, totalPage) {
     if (!document.querySelector(".first-li")) {
       let firstArrowLi = document.createElement("span");
       let firstArrowAnchor = document.createElement("a");
-      firstArrowLi.classList.add("nav-item", "first-li");
+      firstArrowLi.classList.add("nav-item", "first-li", "mx-1");
       firstArrowAnchor.classList.add("nav-link", "arrow-left");
 
       firstArrowAnchor.textContent = "<";
@@ -482,7 +482,7 @@ function shortenPageDisplay(currPage, totalPage) {
     if (!document.querySelector(".last-li")) {
       let tempArrowLi = document.createElement("span");
       let tempArrowAnchor = document.createElement("a");
-      tempArrowLi.classList.add("nav-item", "last-li");
+      tempArrowLi.classList.add("nav-item", "last-li", "mx-2");
       tempArrowAnchor.classList.add("nav-link", "arrow-right");
 
       tempArrowAnchor.textContent = ">";
