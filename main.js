@@ -59,7 +59,7 @@ function initMap() {
 function getAllBike() {
   $.ajax({
     method: "GET",
-    url: "http://api.citybik.es/v2/networks",
+    url: "https://api.citybik.es/v2/networks",
     success: function (data) {
       worldData = data;
       for (let i = 0; i < worldData.networks.length; i++) {
@@ -76,7 +76,7 @@ function getAllBike() {
         if (data.networks[i].location.city === "San Francisco Bay Area, CA") {
           $.ajax({
             method: "GET",
-            url: "http://api.citybik.es" + data.networks[i].href,
+            url: "https://api.citybik.es" + data.networks[i].href,
             success: function (data) {
               for (let j = 0; j < data.network.stations.length; j++) {
                 const marker = new google.maps.Marker({
@@ -111,7 +111,7 @@ function getAllBike() {
 function getBike(country, countryCode, city) {
   $.ajax({
     method: "GET",
-    url: "http://api.citybik.es/v2/networks",
+    url: "https://api.citybik.es/v2/networks",
     beforeSend: function () {
       spinner.classList.remove("d-none");
     },
@@ -146,7 +146,7 @@ function getBike(country, countryCode, city) {
       for (let i = 0; i < regionData.length; i++) {
         $.ajax({
           method: "GET",
-          url: "http://api.citybik.es" + regionData[i].href,
+          url: "https://api.citybik.es" + regionData[i].href,
           success: function (data) {
             totalStations += data.network.stations.length;
             numOfBikeStations.textContent =
