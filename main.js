@@ -524,6 +524,12 @@ function shortenPageDisplay(currPage, totalPage) {
     }
   }
 
+  if (minPage === 0) {
+    if (document.querySelector(".first-li")) {
+      document.querySelector(".first-li").remove();
+    }
+  }
+
   for (let i = 0; i < totalPage; i++) {
     if (i < minPage) {
       document.querySelectorAll("li")[i].classList.add("d-none");
