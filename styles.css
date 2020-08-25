@@ -15,6 +15,11 @@
   text-align: center;
 }
 
+#num-of-stations,
+#city-country {
+  flex-basis: 100%;
+}
+
 .explore-btn {
   padding: 0.4rem 0.6rem 0.4rem 0.6rem;
   border: transparent;
@@ -22,10 +27,6 @@
   border-radius: 20px;
   outline: none;
   text-align: right;
-}
-
-form {
-  /* margin-bottom: 1rem; */
 }
 
 #example-map {
@@ -81,4 +82,43 @@ option {
   background-color: #b0e1ec;
   border: transparent;
   border-radius: 20px;
+}
+
+.card {
+  border-radius: 20px;
+}
+
+.card-data {
+  font-weight: 800;
+}
+
+.active {
+  background-color: #393a3b;
+  border-radius: 50%;
+  border: 2px solid #393a3b;
+}
+
+a.active {
+  color: white;
+}
+
+a {
+  color: #393a3b;
+}
+
+.arrow-right,
+.arrow-left {
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px #747474;
+  cursor: pointer;
+}
+
+.nav-numbers {
+  align-items: center;
+}
+
+#spinner {
+  display: flex;
+  justify-content: center;
 }

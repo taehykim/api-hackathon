@@ -1,7 +1,8 @@
+const spinner = document.querySelector(".spinner-border");
 const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
-const bikeTable = document.querySelector("table");
-const bikeTableBody = document.getElementById("bike-table-body");
+const numOfBikeStations = document.getElementById("num-of-stations");
+const cityCountry = document.getElementById("city-country");
 const exampleMapText = document.getElementById("example-map");
 const exploreBtn = document.querySelector(".explore-btn");
 const citySelect = document.getElementById("city-select");
@@ -9,6 +10,8 @@ const countrySelect = document.getElementById("country-select");
 const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
 const container = document.querySelector(".container");
+const stationCards = document.getElementById("station-cards");
+const cardsShown = 20;
 let worldData = [];
 let city = [];
 let country = [];
@@ -16,12 +19,12 @@ let country = [];
 getAllBike();
 
 cykelAnchor.addEventListener("click", function () {
-  titleSub.textContent = "Get out and bike in your favorite city";
+  numOfBikeStations.textContent = "";
+  cityCountry.textContent = "Get out and bike in your favorite city";
   map.setCenter(sf);
   map.setZoom(11);
-  removeTable();
-  removeNav(document.querySelector("#nav"));
-  bikeTable.classList.add("d-none");
+  removeCards();
+  removeNav(document.querySelector(".nav"));
   form.reset();
   exploreBtn.textContent = "Explore";
 });
@@ -39,9 +42,8 @@ function handleSubmit(event) {
   const countrySelect = formData.get("country-select");
   const citySelect = formData.get("city-select");
   const countryCode = countryLong[countrySelect];
-
-  removeTable();
-  removeNav(document.getElementById("nav"));
+  removeCards();
+  removeNav(document.querySelector(".nav"));
   getBike(countrySelect, countryCode, citySelect);
 }
 
@@ -87,9 +89,12 @@ function getAllBike() {
                 marker.setMap(map);
                 map.setZoom(11);
               }
+              spinner.classList.add("d-none");
             },
             error: function (err) {
               console.log(err);
+              $("#myModal").modal("toggle");
+              spinner.classList.add("d-none");
             },
           });
         }
@@ -98,6 +103,8 @@ function getAllBike() {
 
     error: function (err) {
       console.log(err);
+      $("#myModal").modal("toggle");
+      spinner.classList.add("d-none");
     },
   });
 }
@@ -106,9 +113,11 @@ function getBike(country, countryCode, city) {
   $.ajax({
     method: "GET",
     url: "http://api.citybik.es/v2/networks",
+    beforeSend: function () {
+      spinner.classList.remove("d-none");
+    },
     success: function (data) {
       let totalStations = 0;
-      bikeTable.classList.remove("d-none");
       exampleMapText.classList.add("d-none");
       const regionData = [];
 
@@ -129,7 +138,6 @@ function getBike(country, countryCode, city) {
           totalLng += regionData[i].location.longitude;
         }
 
-        // change the center of the map and zoom in
         map.setCenter({
           lat: totalLat / regionData.length,
           lng: totalLng / regionData.length,
@@ -142,8 +150,9 @@ function getBike(country, countryCode, city) {
           url: "http://api.citybik.es" + regionData[i].href,
           success: function (data) {
             totalStations += data.network.stations.length;
-            titleSub.textContent =
-              totalStations + " Bike stations in " + city + ", " + country;
+            numOfBikeStations.textContent =
+              totalStations + " Bike Stations in ";
+            cityCountry.textContent = city + ", " + country;
 
             for (let j = 0; j < data.network.stations.length; j++) {
               const marker = new google.maps.Marker({
@@ -202,10 +211,9 @@ function getBike(country, countryCode, city) {
                 eBikes = 0;
               }
 
-              bikeTableBody.appendChild(
-                getNewRow(
+              stationCards.appendChild(
+                createStationCard(
                   stationName,
-                  totalBikes,
                   availableBikes,
                   eBikes,
                   country,
@@ -214,10 +222,16 @@ function getBike(country, countryCode, city) {
               );
             }
             map.setZoom(14);
-            pageTable();
+            if (totalStations !== 0) {
+              container.appendChild(pageCards());
+            }
+            shortenPageDisplay(0, totalStations / 20);
+            spinner.classList.add("d-none");
           },
           error: function (err) {
             console.log(err);
+            $("#myModal").modal("toggle");
+            spinner.classList.add("d-none");
           },
         });
       }
@@ -225,11 +239,12 @@ function getBike(country, countryCode, city) {
     },
     error: function (err) {
       console.log(err);
+      $("#myModal").modal("toggle");
+      spinner.classList.add("d-none");
     },
   });
 }
 
-// functions
 function getCity(countryCode) {
   var filteredCity = [];
   for (var i = 0; i < worldData.networks.length; i++) {
@@ -275,11 +290,9 @@ function createCountrySelectTags(countries) {
   }
 }
 
-// function displayTotal(totalStations) {
-//   document.getElementById("stats").classList.remove("d-none");
-//   document.getElementById("stats").textContent =
-//     "There are total " + totalStations + " Bike Stations in this area";
-// }
+function removeCards() {
+  document.getElementById("station-cards").innerHTML = "";
+}
 
 function removeNav(nav) {
   if (nav) nav.remove();
@@ -290,10 +303,6 @@ function removeNavs() {
   for (let i = 1; i < navs.length; i++) {
     container.removeChild(navs[i]);
   }
-}
-
-function removeTable() {
-  bikeTableBody.innerHTML = "";
 }
 
 function getNewRow(
@@ -339,62 +348,195 @@ function getNewRow(
   return newRow;
 }
 
-function pageTable() {
-  $(document).ready(function () {
-    $("#data").after('<div id="nav"></div>');
-    var rowsShown = 10;
-    var rowsTotal = $("#data tbody tr").length;
-    var numPages = rowsTotal / rowsShown;
-    for (let i = 0; i < numPages; i++) {
-      var pageNum = i + 1;
-      $("#nav").append('<a href="#" rel="' + i + '">' + pageNum + "</a> ");
-    }
+function createStationCard(stationName, availableBikes, eBikes, country, city) {
+  const card = document.createElement("div");
+  const stationNameDiv = document.createElement("div");
+  const cityDiv = document.createElement("div");
+  const countryDiv = document.createElement("div");
+  const bikeDataDiv = document.createElement("div");
+  const bikeDiv = document.createElement("div");
+  const eBikeDiv = document.createElement("div");
+  const bikeSpan = document.createElement("span");
+  const eBikeSpan = document.createElement("span");
 
-    $("#data tbody tr").hide();
-    $("#data tbody tr").slice(0, rowsShown).show();
-    $("#nav a:first").addClass("active");
-    $("#nav a").bind("click", function () {
-      $("#nav a").removeClass("active");
-      $(this).addClass("active");
-      var currPage = $(this).attr("rel");
-      var startItem = currPage * rowsShown;
-      var endItem = startItem + rowsShown;
-      $("#data tbody tr")
-        .css("opacity", "0.0") // making it 100% transparent
-        .hide() // remove the tbody tr from the DOM
-        .slice(startItem, endItem) // cut the row
-        .css("display", "table-row") // displays the row (gives spaces for the row in DOM) but transparent
-        .animate({ opacity: 1 }, 300); // in 300 milliseconds, change opacity to 1, so you can view it
-    });
-    removeNavs();
-  });
+  card.classList.add("card");
+  card.classList.add("mb-3", "p-2", "text-center");
+  stationNameDiv.classList.add("font-weight-bold");
+  stationNameDiv.textContent = stationName;
+  cityDiv.textContent = city;
+  countryDiv.textContent = country;
+  bikeSpan.textContent = availableBikes;
+  eBikeSpan.textContent = eBikes;
+  bikeDiv.textContent = "Available Bikes: ";
+  bikeDiv.appendChild(bikeSpan);
+  eBikeDiv.textContent = "Available E-Bikes: ";
+  eBikeDiv.appendChild(eBikeSpan);
+  bikeDataDiv.append(bikeDiv, eBikeDiv);
+
+  card.append(stationNameDiv, cityDiv, countryDiv, bikeDataDiv);
+  return card;
 }
 
-//trying to get user's location on the main page
-// var currentLocation = {};
-// //   var sf = { lat: 37.7749, lng: -122.4194 };
+function pageCards() {
+  const nav = document.createElement("ul");
+  nav.classList.add("nav", "justify-content-center", "mb-3", "nav-numbers");
 
-// var options = {
-//   enableHighAccuracy: true,
-//   timeout: 5000,
-//   maximumAge: 0,
-// };
+  const cardsTotal = document.querySelectorAll(".card").length;
+  const numPages = cardsTotal / cardsShown;
 
-// function success(pos) {
-//   var crd = pos.coords;
+  for (let i = 0; i < numPages; i++) {
+    let pageNum = i + 1;
+    let listTag = document.createElement("li");
+    listTag.classList.add("nav-item");
+    let anchorTag = document.createElement("a");
+    anchorTag.classList.add("nav-link");
+    anchorTag.href = "#";
+    anchorTag.rel = i;
+    anchorTag.textContent = pageNum;
+    listTag.appendChild(anchorTag);
+    nav.appendChild(listTag);
+  }
 
-//   console.log("Your current position is:");
-//   console.log(`Latitude : ${crd.latitude}`);
-//   console.log(`Longitude: ${crd.longitude}`);
-//   console.log(`More or less ${crd.accuracy} meters.`);
-//   currentLocation.lat = parseFloat(crd.latitude);
-//   currentLocation.lng = parseFloat(crd.longitude);
+  [...stationCards.children].forEach((div) => div.classList.add("d-none"));
 
-//   getAllBike(crd);
-// }
+  [...stationCards.children]
+    .slice(0, cardsShown)
+    .forEach((div) => div.classList.remove("d-none"));
 
-// function error(err) {
-//   console.warn(`ERROR(${err.code}): ${err.message}`);
-// }
+  nav.firstElementChild.firstElementChild.classList.add("active");
 
-// navigator.geolocation.getCurrentPosition(success, error, options);
+  [...nav.children].forEach((aTag) =>
+    aTag.addEventListener("click", function () {
+      document.querySelector("a.active").classList.remove("active");
+      event.target.classList.add("active");
+
+      let currPage = event.target.attributes.rel.value;
+      let startRow = currPage * cardsShown;
+      let endRow = startRow + cardsShown;
+
+      shortenPageDisplay(currPage, numPages);
+
+      [...stationCards.children].forEach((div) => div.classList.add("d-none"));
+
+      [...stationCards.children]
+        .slice(startRow, endRow)
+        .forEach((div) => div.classList.remove("d-none"));
+    })
+  );
+
+  return nav;
+}
+
+function shortenPageDisplay(currPage, totalPage) {
+  let minPage = Number(currPage) - 2;
+  if (minPage < 0) {
+    minPage = 0;
+  } else if (minPage > totalPage - 5) {
+    minPage = totalPage - 5;
+  }
+  let maxPage = minPage + 5;
+
+  if (maxPage > totalPage) {
+    maxPage = totalPage;
+  }
+
+  if (minPage != 0) {
+    if (!document.querySelector(".first-li")) {
+      let firstArrowLi = document.createElement("span");
+      let firstArrowAnchor = document.createElement("a");
+      firstArrowLi.classList.add("nav-item", "first-li", "mx-1");
+      firstArrowAnchor.classList.add("nav-link", "arrow-left");
+
+      firstArrowAnchor.textContent = "<";
+      firstArrowLi.appendChild(firstArrowAnchor);
+
+      firstArrowAnchor.addEventListener("click", function () {
+        document.querySelector("a.active").classList.remove("active");
+        if (document.querySelector(".first-li")) {
+          document.querySelector(".first-li").remove();
+        }
+        document
+          .querySelector("ul")
+          .firstElementChild.firstElementChild.classList.add("active");
+
+        [...stationCards.children].forEach((div) =>
+          div.classList.add("d-none")
+        );
+        [...stationCards.children]
+          .slice(0, cardsShown)
+          .forEach((div) => div.classList.remove("d-none"));
+
+        minPage = 0;
+        maxPage = 5;
+
+        shortenPageDisplay(minPage, totalPage);
+      });
+
+      document
+        .querySelector("a.active")
+        .parentElement.parentElement.prepend(firstArrowLi);
+    }
+  }
+
+  if (maxPage != totalPage) {
+    if (!document.querySelector(".last-li")) {
+      let tempArrowLi = document.createElement("span");
+      let tempArrowAnchor = document.createElement("a");
+      tempArrowLi.classList.add("nav-item", "last-li", "mx-2");
+      tempArrowAnchor.classList.add("nav-link", "arrow-right");
+
+      tempArrowAnchor.textContent = ">";
+      tempArrowLi.appendChild(tempArrowAnchor);
+      tempArrowAnchor.addEventListener("click", function () {
+        document.querySelector("a.active").classList.remove("active");
+        if (document.querySelector(".last-li")) {
+          document.querySelector(".last-li").remove();
+        }
+        document
+          .querySelector("ul")
+          .lastElementChild.firstElementChild.classList.add("active");
+
+        [...stationCards.children].forEach((div) =>
+          div.classList.add("d-none")
+        );
+        [...stationCards.children]
+          .slice(
+            document.querySelectorAll(".card").length - cardsShown,
+            document.querySelectorAll(".card").length
+          )
+          .forEach((div) => div.classList.remove("d-none"));
+
+        minPage = totalPage - 3;
+        maxPage = totalPage;
+
+        shortenPageDisplay(minPage, totalPage);
+      });
+
+      document
+        .querySelector("a.active")
+        .parentElement.parentElement.appendChild(tempArrowLi);
+    }
+  }
+
+  if (maxPage >= totalPage) {
+    if (document.querySelector(".last-li")) {
+      document.querySelector(".last-li").remove();
+    }
+  }
+
+  if (minPage === 0) {
+    if (document.querySelector(".first-li")) {
+      document.querySelector(".first-li").remove();
+    }
+  }
+
+  for (let i = 0; i < totalPage; i++) {
+    if (i < minPage) {
+      document.querySelectorAll("li")[i].classList.add("d-none");
+    } else if (i >= maxPage) {
+      document.querySelectorAll("li")[i].classList.add("d-none");
+    } else {
+      document.querySelectorAll("li")[i].classList.remove("d-none");
+    }
+  }
+}

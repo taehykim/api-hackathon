@@ -14,12 +14,44 @@
     <title>CYKEL</title>
   </head>
   <body>
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" id="error-modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Failed to get the bike data. Please refresh the page.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="row title bg-light-blue">
         <a href="#" id="cykel-anchor">CYKEL</a>
       </div>
       <div class="row title-sub">
-        <span>Get out and bike in your favorite city</span>
+        <div id="num-of-stations"></div>
+        <div id="city-country">
+          Get out and bike in your favorite city
+        </div>
       </div>
 
       <form id="location-form" class="mb-3">
@@ -67,20 +99,9 @@
         >
       </div>
 
+      <div id="spinner" class="mb-4"><div class="spinner-border"></div></div>
       <div id="map"></div>
-      <table class="table d-none table-responsive" id="data">
-        <thead>
-          <tr>
-            <th class="station">Station</th>
-            <th class="city">City</th>
-            <th class="country">Country</th>
-            <th class="total-bikes">Total Bikes</th>
-            <th class="available-bikes">Currently Available Bikes</th>
-            <th class="e-bikes">E-Bikes</th>
-          </tr>
-        </thead>
-        <tbody id="bike-table-body"></tbody>
-      </table>
+      <div id="station-cards"></div>
     </div>
 
     <script
@@ -89,6 +110,12 @@
     ></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
     <script src="countryCode.js"></script>
     <script src="main.js"></script>
   </body>
