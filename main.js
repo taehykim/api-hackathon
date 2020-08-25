@@ -1,6 +1,5 @@
 const spinner = document.querySelector(".spinner-border");
 const cykelAnchor = document.getElementById("cykel-anchor");
-const titleSub = document.querySelector(".title-sub");
 const numOfBikeStations = document.getElementById("num-of-stations");
 const cityCountry = document.getElementById("city-country");
 const exampleMapText = document.getElementById("example-map");
@@ -201,11 +200,13 @@ function getBike(country, countryCode, city) {
 
               marker.setMap(map);
 
-              // fill in the table in DOM
               const stationName = data.network.stations[j].name;
-              const totalBikes = data.network.stations[j].free_bikes;
-              const availableBikes = data.network.stations[j].empty_slots;
+              let availableBikes = data.network.stations[j].empty_slots;
               let eBikes = data.network.stations[j].extra.ebikes;
+
+              if (!availableBikes) {
+                availableBikes = 0;
+              }
 
               if (!eBikes) {
                 eBikes = 0;
@@ -225,7 +226,7 @@ function getBike(country, countryCode, city) {
             if (totalStations !== 0) {
               container.appendChild(pageCards());
             }
-            shortenPageDisplay(0, totalStations / 20);
+            shortenPageDisplay(0, totalStations / cardsShown);
             spinner.classList.add("d-none");
           },
           error: function (err) {
@@ -246,12 +247,11 @@ function getBike(country, countryCode, city) {
 }
 
 function getCity(countryCode) {
-  var filteredCity = [];
-  for (var i = 0; i < worldData.networks.length; i++) {
-    if (worldData.networks[i].location.country === countryCode) {
-      filteredCity.push(worldData.networks[i].location.city);
-    }
-  }
+  let filteredCity = [];
+  worldData.networks
+    .filter((data) => data.location.country === countryCode)
+    .forEach((elm) => filteredCity.push(elm.location.city));
+
   return filteredCity;
 }
 
@@ -296,56 +296,6 @@ function removeCards() {
 
 function removeNav(nav) {
   if (nav) nav.remove();
-}
-
-function removeNavs() {
-  const navs = document.querySelectorAll("#nav");
-  for (let i = 1; i < navs.length; i++) {
-    container.removeChild(navs[i]);
-  }
-}
-
-function getNewRow(
-  stationName,
-  totalBikes,
-  availableBikes,
-  eBikes,
-  country,
-  city
-) {
-  exampleMapText.classList.add("d-none");
-  const newRow = document.createElement("tr");
-  const stationTd = document.createElement("td");
-  const totalBikesTd = document.createElement("td");
-  const availableBikesTd = document.createElement("td");
-  const eBikesTd = document.createElement("td");
-  const cityTd = document.createElement("td");
-  const countryTd = document.createElement("td");
-
-  stationTd.classList.add("station");
-  totalBikesTd.classList.add("total-bikes");
-  availableBikesTd.classList.add("available-bikes");
-  eBikesTd.classList.add("e-bikes");
-  cityTd.classList.add("city");
-  countryTd.classList.add("country");
-
-  stationTd.textContent = stationName;
-  totalBikesTd.textContent = totalBikes;
-  availableBikesTd.textContent = availableBikes;
-  eBikesTd.textContent = eBikes;
-  cityTd.textContent = city;
-  countryTd.textContent = country;
-
-  newRow.append(
-    stationTd,
-    cityTd,
-    countryTd,
-    totalBikesTd,
-    availableBikesTd,
-    eBikesTd
-  );
-
-  return newRow;
 }
 
 function createStationCard(stationName, availableBikes, eBikes, country, city) {
@@ -482,7 +432,7 @@ function shortenPageDisplay(currPage, totalPage) {
     if (!document.querySelector(".last-li")) {
       let tempArrowLi = document.createElement("span");
       let tempArrowAnchor = document.createElement("a");
-      tempArrowLi.classList.add("nav-item", "last-li", "mx-2");
+      tempArrowLi.classList.add("nav-item", "last-li", "mx-1");
       tempArrowAnchor.classList.add("nav-link", "arrow-right");
 
       tempArrowAnchor.textContent = ">";
@@ -519,15 +469,11 @@ function shortenPageDisplay(currPage, totalPage) {
   }
 
   if (maxPage >= totalPage) {
-    if (document.querySelector(".last-li")) {
-      document.querySelector(".last-li").remove();
-    }
+    removeArrow(".last-li");
   }
 
   if (minPage === 0) {
-    if (document.querySelector(".first-li")) {
-      document.querySelector(".first-li").remove();
-    }
+    removeArrow(".first-li");
   }
 
   for (let i = 0; i < totalPage; i++) {
@@ -538,5 +484,11 @@ function shortenPageDisplay(currPage, totalPage) {
     } else {
       document.querySelectorAll("li")[i].classList.remove("d-none");
     }
+  }
+}
+
+function removeArrow(arrowDirection) {
+  if (document.querySelector(arrowDirection)) {
+    document.querySelector(arrowDirection).remove();
   }
 }
