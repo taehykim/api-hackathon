@@ -29,10 +29,6 @@
   text-align: right;
 }
 
-form {
-  /* margin-bottom: 1rem; */
-}
-
 #example-map {
   font-size: 1.3rem;
   margin-bottom: 1rem;
@@ -120,4 +116,9 @@ a {
 
 .nav-numbers {
   align-items: center;
+}
+
+#spinner {
+  display: flex;
+  justify-content: center;
 }

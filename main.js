@@ -1,3 +1,4 @@
+const spinner = document.querySelector(".spinner-border");
 const cykelAnchor = document.getElementById("cykel-anchor");
 const titleSub = document.querySelector(".title-sub");
 const numOfBikeStations = document.getElementById("num-of-stations");
@@ -88,9 +89,12 @@ function getAllBike() {
                 marker.setMap(map);
                 map.setZoom(11);
               }
+              spinner.classList.add("d-none");
             },
             error: function (err) {
               console.log(err);
+              $("#myModal").modal("toggle");
+              spinner.classList.add("d-none");
             },
           });
         }
@@ -99,6 +103,8 @@ function getAllBike() {
 
     error: function (err) {
       console.log(err);
+      $("#myModal").modal("toggle");
+      spinner.classList.add("d-none");
     },
   });
 }
@@ -107,9 +113,11 @@ function getBike(country, countryCode, city) {
   $.ajax({
     method: "GET",
     url: "http://api.citybik.es/v2/networks",
+    beforeSend: function () {
+      spinner.classList.remove("d-none");
+    },
     success: function (data) {
       let totalStations = 0;
-      // bikeTable.classList.remove("d-none");
       exampleMapText.classList.add("d-none");
       const regionData = [];
 
@@ -130,7 +138,6 @@ function getBike(country, countryCode, city) {
           totalLng += regionData[i].location.longitude;
         }
 
-        // change the center of the map and zoom in
         map.setCenter({
           lat: totalLat / regionData.length,
           lng: totalLng / regionData.length,
@@ -215,11 +222,16 @@ function getBike(country, countryCode, city) {
               );
             }
             map.setZoom(14);
-            container.appendChild(pageCards());
+            if (totalStations !== 0) {
+              container.appendChild(pageCards());
+            }
             shortenPageDisplay(0, totalStations / 20);
+            spinner.classList.add("d-none");
           },
           error: function (err) {
             console.log(err);
+            $("#myModal").modal("toggle");
+            spinner.classList.add("d-none");
           },
         });
       }
@@ -227,6 +239,8 @@ function getBike(country, countryCode, city) {
     },
     error: function (err) {
       console.log(err);
+      $("#myModal").modal("toggle");
+      spinner.classList.add("d-none");
     },
   });
 }
