@@ -26,6 +26,7 @@ cykelAnchor.addEventListener("click", function () {
   removeNav(document.querySelector(".nav"));
   form.reset();
   exploreBtn.textContent = "Explore";
+  exampleMapText.classList.remove("d-none");
 });
 
 selectCountry.addEventListener("change", function () {
