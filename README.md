@@ -24,3 +24,14 @@ Try the application live at [https://taehykim.github.io/bike-stations-around-the
 ## Preview
 
 ![CKYEL APP DEMO](assets/cykel-demo.gif)
+
+## Development
+
+### Getting Started
+
+1. Clone the repository.
+
+    ```shell
+    git clone https://github.com/taehykim/bike-stations-around-the-world.git
+    cd bike-stations-around-the-world
+    ```
