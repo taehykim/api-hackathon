@@ -1,5 +1,5 @@
 # bike-stations-around-the-world
-A front-end web application that locates bike stations around the world using two public APIs (Google Maps API and [CityBikes API](https://citybik.es) for people that are looking to rent bikes.
+A front-end web application that locates bike stations around the world using two public APIs (Google Maps API and [CityBikes API](https://citybik.es)) for people that are looking to rent bikes.
 
 
 ## Technologies Used
