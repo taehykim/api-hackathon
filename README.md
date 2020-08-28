@@ -21,7 +21,7 @@ Try the application live at [https://taehykim.github.io/bike-stations-around-the
 - Users can view the bike station markers on the map of the chosen city and country.
 - Users can view the list of bike station cards with bike station information.
 - Users can navigate to different pages to view more bike station cards if there are more than 20 stations in the selected area.
-- Users can go back to the main landing page by clicking on the CYKEL logo on the top.
+- Users can navigate back to the main landing page by clicking on the CYKEL logo on the top.
 
 ## Preview
 
