@@ -224,9 +224,11 @@ function getBike(country, countryCode, city) {
               );
             }
             map.setZoom(14);
+            clearPageNav();
             if (totalStations !== 0) {
               container.appendChild(pageCards());
             }
+
             shortenPageDisplay(0, totalStations / cardsShown);
             spinner.classList.add("d-none");
           },
@@ -252,7 +254,6 @@ function getCity(countryCode) {
   worldData.networks
     .filter((data) => data.location.country === countryCode)
     .forEach((elm) => filteredCity.push(elm.location.city));
-
   return filteredCity;
 }
 
@@ -279,11 +280,11 @@ function createCitySelectTags(cities) {
 }
 
 function createCountrySelectTags(countries) {
-  for (var i = 0; i < countries.length; i++) {
+  for (let i = 0; i < countries.length; i++) {
     countries[i] = countryShort[countries[i]];
   }
   countries = countries.sort();
-  for (var i = 0; i < countries.length; i++) {
+  for (let i = 0; i < countries.length; i++) {
     var option = document.createElement("option");
     option.value = countries[i];
     option.textContent = countries[i];
@@ -376,6 +377,12 @@ function pageCards() {
   );
 
   return nav;
+}
+
+function clearPageNav() {
+  if (document.querySelector(".nav-numbers")) {
+    document.querySelector(".nav-numbers").remove();
+  }
 }
 
 function shortenPageDisplay(currPage, totalPage) {
