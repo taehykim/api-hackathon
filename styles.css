@@ -154,4 +154,8 @@ a {
   .flex-direction-col {
     flex-direction: column;
   }
+
+  .no-margin {
+    margin: 0 !important;
+  }
 }
