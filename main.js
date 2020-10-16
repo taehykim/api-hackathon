@@ -8,7 +8,7 @@ const citySelect = document.getElementById("city-select");
 const countrySelect = document.getElementById("country-select");
 const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
-const container = document.querySelector(".container");
+const container = document.querySelector(".container-fluid");
 const stationCards = document.getElementById("station-cards");
 const cardsShown = 20;
 let worldData = [];
@@ -284,6 +284,8 @@ function createCountrySelectTags(countries) {
     countries[i] = countryShort[countries[i]];
   }
   countries = countries.sort();
+  countries = countries.filter((country) => country !== undefined);
+
   for (let i = 0; i < countries.length; i++) {
     var option = document.createElement("option");
     option.value = countries[i];
@@ -311,7 +313,7 @@ function createStationCard(stationName, availableBikes, eBikes, country, city) {
   const bikeSpan = document.createElement("span");
   const eBikeSpan = document.createElement("span");
 
-  card.classList.add("card");
+  card.classList.add("card", "half-width", "full-width");
   card.classList.add("mb-3", "p-2", "text-center");
   stationNameDiv.classList.add("font-weight-bold");
   stationNameDiv.textContent = stationName;

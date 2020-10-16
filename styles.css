@@ -1,3 +1,7 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
 .bg-light-blue {
   background-color: #b0e1ec;
 }
@@ -90,11 +94,17 @@ option {
 }
 
 .card {
+  background-color: #eef3f4;
   border-radius: 20px;
+  border: 3px solid #b0e1ec;
 }
 
 .card-data {
   font-weight: 800;
+}
+
+.half-width {
+  width: 50%;
 }
 
 .active {
@@ -126,4 +136,10 @@ a {
 #spinner {
   display: flex;
   justify-content: center;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  .full-width {
+    width: 100%;
+  }
 }
