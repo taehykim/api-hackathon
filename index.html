@@ -55,58 +55,68 @@
         <div id="num-of-stations"></div>
         <div id="city-country">Get out and bike in your favorite city</div>
       </div>
-
-      <form id="location-form" class="mb-3">
-        <div class="form-group">
-          <label for="country"
-            >Which country are you going?
-            <div class="select-description">
-              We have over 50 countries with bike stations around the world.
-              Check Out:
-            </div>
-          </label>
-          <select
-            name="country-select"
-            id="country-select"
-            class="select-tag form-control"
-            required
-          >
-            <option value="">List of Countries</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="city"
-            >Which city are you going?
-            <div class="select-description">
-              We have over 600 cities with bike stations around the world. Check
-              Out:
-            </div>
-          </label>
-          <select
-            name="city-select"
-            id="city-select"
-            class="select-tag form-control"
-            required
-          >
-            <option value="">List of Cities</option>
-          </select>
-        </div>
-        <button type="submit" class="explore-btn bg-light-blue">Explore</button>
-      </form>
-
-      <div class="row" id="example-map">
-        <span
-          >Explore near and far from ordinary:
-          <span id="city-name">San Francisco, CA USA</span></span
-        >
-      </div>
-
-      <div id="spinner" class="mb-4"><div class="spinner-border"></div></div>
-      <div id="map"></div>
       <div
-        id="station-cards"
-        class="d-flex flex-column justify-content-center align-items-center"
-      ></div>
+        id="form-map-cards"
+        class="d-flex p-2 flex-column flex-direction-col"
+      >
+        <div id="form-map" class="no-margin">
+          <form id="location-form" class="mb-3">
+            <div class="form-group">
+              <label for="country"
+                >Which country are you going?
+                <div class="select-description">
+                  We have over 50 countries with bike stations around the world.
+                  Check Out:
+                </div>
+              </label>
+              <select
+                name="country-select"
+                id="country-select"
+                class="select-tag form-control"
+                required
+              >
+                <option value="">List of Countries</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="city"
+                >Which city are you going?
+                <div class="select-description">
+                  We have over 600 cities with bike stations around the world.
+                  Check Out:
+                </div>
+              </label>
+              <select
+                name="city-select"
+                id="city-select"
+                class="select-tag form-control"
+                required
+              >
+                <option value="">List of Cities</option>
+              </select>
+            </div>
+            <button type="submit" class="explore-btn bg-light-blue">
+              Explore
+            </button>
+          </form>
+
+          <div class="row" id="example-map">
+            <span
+              >Explore near and far from ordinary:
+              <span id="city-name">San Francisco, CA USA</span></span
+            >
+          </div>
+
+          <div id="spinner" class="mb-4">
+            <div class="spinner-border"></div>
+          </div>
+          <div id="map"></div>
+        </div>
+        <div
+          id="station-cards"
+          class="d-flex flex-column justify-content-center align-items-center half-flex-basis"
+        ></div>
+      </div>
     </div>
 
     <script

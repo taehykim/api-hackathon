@@ -103,8 +103,16 @@ option {
   font-weight: 800;
 }
 
-.half-width {
-  width: 50%;
+.seventy-width {
+  width: 70%;
+}
+
+.flex-direction-row {
+  flex-direction: row;
+}
+
+.half-flex-basis {
+  flex-basis: 50%;
 }
 
 .active {
@@ -141,5 +149,13 @@ a {
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
   .full-width {
     width: 100%;
+  }
+
+  .flex-direction-col {
+    flex-direction: column;
+  }
+
+  .no-margin {
+    margin: 0 !important;
   }
 }

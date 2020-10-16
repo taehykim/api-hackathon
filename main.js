@@ -10,7 +10,9 @@ const form = document.getElementById("location-form");
 const selectCountry = document.getElementById("country-select");
 const container = document.querySelector(".container-fluid");
 const stationCards = document.getElementById("station-cards");
-const cardsShown = 20;
+const formMapDiv = document.getElementById("form-map");
+const formMapCardsDiv = document.getElementById("form-map-cards");
+const cardsShown = 5;
 let worldData = [];
 let city = [];
 let country = [];
@@ -18,6 +20,10 @@ let country = [];
 getAllBike();
 
 cykelAnchor.addEventListener("click", function () {
+  formMapCardsDiv.classList.remove("flex-direction-row");
+  formMapCardsDiv.classList.add("flex-column");
+  formMapDiv.classList.remove("half-flex-basis", "ml-4");
+  stationCards.classList.remove("half-flex-basis");
   numOfBikeStations.textContent = "";
   cityCountry.textContent = "Get out and bike in your favorite city";
   map.setCenter(sf);
@@ -227,10 +233,23 @@ function getBike(country, countryCode, city) {
             clearPageNav();
             if (totalStations !== 0) {
               container.appendChild(pageCards());
+            } else if (totalStations == 0) {
+              const card = document.createElement("div");
+              const text = document.createElement("div");
+              card.classList.add("card", "seventy-width", "full-width");
+              card.classList.add("mb-3", "p-2", "text-center");
+              text.classList.add("h4", "m-0");
+              text.textContent = "No bike stations found.";
+              card.appendChild(text);
+              stationCards.appendChild(card);
             }
 
             shortenPageDisplay(0, totalStations / cardsShown);
             spinner.classList.add("d-none");
+            formMapCardsDiv.classList.remove("flex-column");
+            formMapCardsDiv.classList.add("flex-direction-row");
+            formMapDiv.classList.add("half-flex-basis", "ml-4");
+            stationCards.classList.add("half-flex-basis");
           },
           error: function (err) {
             console.log(err);
@@ -313,7 +332,7 @@ function createStationCard(stationName, availableBikes, eBikes, country, city) {
   const bikeSpan = document.createElement("span");
   const eBikeSpan = document.createElement("span");
 
-  card.classList.add("card", "half-width", "full-width");
+  card.classList.add("card", "seventy-width", "full-width");
   card.classList.add("mb-3", "p-2", "text-center");
   stationNameDiv.classList.add("font-weight-bold");
   stationNameDiv.textContent = stationName;
