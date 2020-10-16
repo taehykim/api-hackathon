@@ -25,7 +25,7 @@ Try the application live at [https://taehykim.github.io/bike-stations-around-the
 
 ## Preview
 
-![CKYEL APP DEMO](assets/cykel-demo.gif)
+![CKYEL APP DEMO](assets/cykel-demo-v2.gif)
 
 ## Development
 
