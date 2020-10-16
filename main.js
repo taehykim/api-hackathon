@@ -233,6 +233,15 @@ function getBike(country, countryCode, city) {
             clearPageNav();
             if (totalStations !== 0) {
               container.appendChild(pageCards());
+            } else if (totalStations == 0) {
+              const card = document.createElement("div");
+              const text = document.createElement("div");
+              card.classList.add("card", "seventy-width", "full-width");
+              card.classList.add("mb-3", "p-2", "text-center");
+              text.classList.add("h4", "m-0");
+              text.textContent = "No bike stations found.";
+              card.appendChild(text);
+              stationCards.appendChild(card);
             }
 
             shortenPageDisplay(0, totalStations / cardsShown);
